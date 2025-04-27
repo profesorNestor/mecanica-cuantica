@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliografía - Mecánica Cuántica</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81); /* Consistent gradient */
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        .home-button {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255, 255, 255, 0.1); padding: 10px 20px;
+            border-radius: 12px; font-weight: bold; display: flex;
+            align-items: center; text-decoration: none; color: #facc15;
+            transition: background 0.3s, transform 0.3s; z-index: 50;
+        }
+        .home-button:hover { background: rgba(250, 204, 21, 0.2); transform: scale(1.05); }
+
+        /* Category Title Styles */
+        .category-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem; /* text-2xl */
+            color: #fde047; /* Lighter yellow */
+            margin-bottom: 1rem; /* mb-4 */
+            padding-bottom: 0.5rem; /* pb-2 */
+            border-bottom: 2px solid rgba(250, 204, 21, 0.5); /* Yellow border */
+            display: flex;
+            align-items: center;
+        }
+        .category-title i {
+            margin-right: 0.75rem; /* mr-3 */
+            color: #facc15; /* Standard yellow for icon */
+        }
+
+        /* Bibliography Card Styles */
+        .biblio-card {
+            background: rgba(255, 255, 255, 0.07); /* Slightly lighter background */
+            border-radius: 10px; /* More rounded */
+            padding: 1.25rem; /* p-5 */
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: flex-start; /* Align icon at the top */
+            transition: all 0.3s ease; /* Smooth transition for all properties */
+        }
+        .biblio-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px) scale(1.01); /* Subtle lift and scale */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+            border-color: rgba(250, 204, 21, 0.4); /* Yellow border on hover */
+        }
+        .biblio-icon {
+            font-size: 1.5rem; /* Larger icon */
+            color: #facc15; /* Yellow icon */
+            margin-right: 1rem; /* Space between icon and text */
+            margin-top: 0.1rem; /* Align icon slightly lower */
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .biblio-content p {
+            margin: 0;
+            font-size: 0.95rem; /* Slightly larger text */
+            line-height: 1.5;
+        }
+        .biblio-content strong { /* Author names */
+            color: #fde047; /* Lighter yellow */
+        }
+        .biblio-content em { /* Titles */
+            color: #e2e8f0; /* Standard text color for titles */
+            font-style: italic;
+        }
+        .biblio-content a { /* Links */
+            color: #60a5fa; /* Light blue for links */
+            text-decoration: underline;
+            word-break: break-all; /* Prevent long URLs from overflowing */
+        }
+        .biblio-content a:hover {
+            color: #93c5fd; /* Lighter blue on hover */
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="home-button">
+    <i class="fas fa-home mr-2"></i>Inicio
+</a>
+
+<div class="container mx-auto px-4 py-10 pt-20">
+    <div class="text-center mb-12"> <h1 class="text-4xl font-bold mb-2">Bibliografía y Recursos</h1>
+        <div class="h-1 w-24 bg-yellow-300 rounded mb-4 mx-auto"></div>
+        <p class="text-lg text-gray-200">Fuentes y materiales para profundizar en la Mecánica Cuántica</p>
+    </div>
+
+    <section class="mb-10">
+        <h2 class="category-title">
+            <i class="fas fa-book-open"></i>Libros Recomendados
+        </h2>
+        <div class="space-y-4"> <div class="biblio-card">
+                <i class="fas fa-book biblio-icon"></i>
+                <div class="biblio-content">
+                    <p><strong>Tipler, Paul A., Llewellyn, Ralph A.</strong> (2002). <em>Física moderna</em>. Reverté.</p>
+                    <p class="text-xs text-gray-400 mt-1">Un clásico completo que abarca desde relatividad hasta física de partículas.</p>
+                </div>
+            </div>
+            <div class="biblio-card">
+                <i class="fas fa-book biblio-icon"></i>
+                <div class="biblio-content">
+                    <p><strong>Griffiths, David J.</strong> (2014). <em>Introducción a la mecánica cuántica</em> (2ª ed.). Pearson.</p>
+                     <p class="text-xs text-gray-400 mt-1">Texto universitario estándar, claro y pedagógico (requiere matemáticas avanzadas).</p>
+               </div>
+            </div>
+            <div class="biblio-card">
+                 <i class="fas fa-book biblio-icon"></i>
+                <div class="biblio-content">
+                    <p><strong>Serway, Raymond A., Jewett, John W.</strong> (2018). <em>Física para ciencias e ingeniería</em> (9ª ed.). Cengage Learning.</p>
+                    <p class="text-xs text-gray-400 mt-1">Capítulos dedicados a la física moderna con buena introducción a la cuántica.</p>
+                </div>
+            </div>
+            <div class="biblio-card">
+                 <i class="fas fa-book biblio-icon"></i>
+                <div class="biblio-content">
+                    <p><strong>Feynman, Richard P.</strong> (1985). <em>QED: La extraña teoría de la luz y la materia</em>. Alianza Editorial.</p>
+                    <p class="text-xs text-gray-400 mt-1">Una explicación magistral y accesible de la electrodinámica cuántica por un genio.</p>
+                </div>
+            </div>
+             <div class="biblio-card">
+                 <i class="fas fa-book biblio-icon"></i>
+                <div class="biblio-content">
+                    <p><strong>Young, Hugh D., Freedman, Roger A.</strong> (2020). <em>Física universitaria con física moderna</em> (Vol. 2, 14ª ed.). Pearson Educación.</p>
+                     <p class="text-xs text-gray-400 mt-1">Otro texto universitario de referencia con secciones claras sobre cuántica.</p>
+               </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="category-title">
+            <i class="fas fa-laptop-code"></i>Recursos Web y Simulaciones
+        </h2>
+         <div class="space-y-4">
+             <div class="biblio-card">
+                <i class="fas fa-flask biblio-icon"></i>
+                <div class="biblio-content">
+                    <p><strong>PhET Interactive Simulations</strong> (Universidad de Colorado Boulder).</p>
+                    <p class="text-xs text-gray-400 mt-1">Excelentes simulaciones interactivas gratuitas sobre muchos temas cuánticos.</p>
+                    <p><a href="https://phet.colorado.edu/es/simulations/filter?subjects=quantum-phenomena" target="_blank">phet.colorado.edu/es/simulations/filter?subjects=quantum-phenomena</a></p>
+                </div>
+            </div>
+             <div class="biblio-card">
+                 <i class="fas fa-link biblio-icon"></i>
+                 <div class="biblio-content">
+                    <p><strong>HyperPhysics</strong> (Georgia State University).</p>
+                    <p class="text-xs text-gray-400 mt-1">Mapas conceptuales interconectados sobre física, incluyendo cuántica (en inglés).</p>
+                    <p><a href="http://hyperphysics.phy-astr.gsu.edu/hbase/hph.html" target="_blank">hyperphysics.phy-astr.gsu.edu</a></p>
+                </div>
+            </div>
+             <div class="biblio-card">
+                 <i class="fab fa-youtube biblio-icon"></i>
+                 <div class="biblio-content">
+                    <p><strong>Canales de YouTube Divulgativos</strong></p>
+                    <p class="text-xs text-gray-400 mt-1">Busca canales como Quantum Fracture, Date Un Voltio, MinutePhysics, PBS Space Time, Veritasium, Domain of Science.</p>
+                </div>
+            </div>
+             <div class="biblio-card">
+                 <i class="fas fa-graduation-cap biblio-icon"></i>
+                 <div class="biblio-content">
+                    <p><strong>Khan Academy (Física Cuántica)</strong></p>
+                     <p class="text-xs text-gray-400 mt-1">Lecciones y ejercicios introductorios gratuitos.</p>
+                    <p><a href="https://es.khanacademy.org/science/physics/quantum-physics" target="_blank">es.khanacademy.org/science/physics/quantum-physics</a></p>
+                </div>
+            </div>
+             <div class="biblio-card">
+                 <i class="fas fa-rocket biblio-icon"></i>
+                 <div class="biblio-content">
+                     <p><strong>NASA Science - Quantum Physics</strong></p>
+                     <p class="text-xs text-gray-400 mt-1">Visión general desde la perspectiva de la NASA (en inglés).</p>
+                     <p><a href="https://science.nasa.gov/quantum" target="_blank">science.nasa.gov/quantum</a></p>
+                 </div>
+             </div>
+        </div>
+    </section>
+
+</div>
+
+<footer class="mt-12 pb-6 text-center text-xs text-gray-400">
+    Proyecto de Mecánica Cuántica - Bibliografía.
+</footer>
+
+</body>
+</html>

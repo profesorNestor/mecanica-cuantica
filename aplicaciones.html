@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicaciones de la Mecánica Cuántica</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: white;
+            overflow-x: hidden;
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #facc15;
+            transition: background 0.3s, transform 0.3s;
+            z-index: 50;
+        }
+        .home-button:hover {
+            background: rgba(250, 204, 21, 0.2);
+            transform: scale(1.05);
+        }
+        .content-box {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .content-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+<a href="index.html" class="home-button">
+    <i class="fas fa-home mr-2"></i>Inicio
+</a>
+
+<div class="container mx-auto px-4 py-10 pt-20">
+
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-bold mb-2">Aplicaciones de la Mecánica Cuántica</h1>
+        <div class="h-1 w-24 bg-yellow-300 rounded mb-3 mx-auto"></div>
+        <p class="text-lg text-gray-200">La ciencia de lo pequeño impulsa las tecnologías más grandes</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <div class="content-box">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-3 flex items-center">
+                <i class="fas fa-bolt mr-3"></i> Electrónica Cuántica
+            </h2>
+            <p class="text-sm text-gray-200">
+                Sin mecánica cuántica no tendríamos transistores ni microchips. Estos dispositivos son la base de nuestros computadores, teléfonos y de toda la revolución digital.
+            </p>
+        </div>
+
+        <div class="content-box">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-3 flex items-center">
+                <i class="fas fa-satellite mr-3"></i> Comunicaciones Seguras
+            </h2>
+            <p class="text-sm text-gray-200">
+                El entrelazamiento cuántico permite desarrollar <strong>criptografía cuántica</strong>, garantizando comunicaciones absolutamente seguras.
+            </p>
+        </div>
+
+        <div class="content-box">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-3 flex items-center">
+                <i class="fas fa-brain mr-3"></i> Computación Cuántica
+            </h2>
+            <p class="text-sm text-gray-200">
+                Los ordenadores cuánticos, usando <strong>qbits</strong>, tienen el potencial de resolver problemas que los ordenadores clásicos tardarían siglos en calcular.
+            </p>
+        </div>
+
+        <div class="content-box">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-3 flex items-center">
+                <i class="fas fa-microscope mr-3"></i> Microscopios de Alta Precisión
+            </h2>
+            <p class="text-sm text-gray-200">
+                Los microscopios de efecto túnel permiten ver y manipular átomos individuales, revolucionando la nanotecnología.
+            </p>
+        </div>
+
+        <div class="content-box">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-3 flex items-center">
+                <i class="fas fa-vial mr-3"></i> Medicina y Diagnóstico
+            </h2>
+            <p class="text-sm text-gray-200">
+                Tecnologías como la <strong>resonancia magnética (MRI)</strong> se basan en principios cuánticos para producir imágenes detalladas del interior del cuerpo humano.
+            </p>
+        </div>
+
+        <div class="content-box">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-3 flex items-center">
+                <i class="fas fa-balance-scale mr-3"></i> Sensores y Metrología
+            </h2>
+            <p class="text-sm text-gray-200">
+                Relojes atómicos, basados en transiciones cuánticas, proporcionan la hora más precisa que existe, vital para sistemas como el GPS.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="mt-12 bg-yellow-500 bg-opacity-10 rounded-lg p-6 border-l-4 border-yellow-400">
+        <h3 class="font-semibold text-yellow-200 mb-3">Ideas Clave</h3>
+        <ul class="list-disc list-inside text-sm text-gray-200">
+            <li>La mecánica cuántica está en el corazón de las tecnologías modernas.</li>
+            <li>Aplicaciones prácticas incluyen computadoras, comunicaciones, diagnóstico médico y sensores de alta precisión.</li>
+            <li>La revolución cuántica apenas está comenzando.</li>
+        </ul>
+    </div>
+
+</div>
+
+<footer class="mt-12 pb-6 text-center text-xs text-gray-400">
+    Aplicaciones tecnológicas de la Mecánica Cuántica.
+</footer>
+
+</body>
+</html>

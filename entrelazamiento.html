@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrelazamiento Cuántico</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+      color: #e2e8f0;
+    }
+    h1, h2, h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+    .home-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #facc15;
+      transition: background 0.3s, transform 0.3s;
+      z-index: 50;
+    }
+    .home-button:hover {
+      background: rgba(250, 204, 21, 0.2);
+      transform: scale(1.05);
+    }
+    .property-box {
+      transition: transform 0.3s ease;
+    }
+    .property-box:hover {
+      transform: translateY(-5px) scale(1.03);
+    }
+  </style>
+</head>
+
+<body>
+<a href="index.html" class="home-button">
+  <i class="fas fa-home mr-2"></i>Inicio
+</a>
+
+<div class="slide flex flex-col p-10 pt-24 space-y-8">
+
+  <!-- Encabezado -->
+  <div>
+    <h1 class="text-4xl font-bold mb-2">Entrelazamiento Cuántico</h1>
+    <div class="h-1 w-24 bg-yellow-400 rounded mb-4"></div>
+    <p class="text-lg text-gray-300">Una conexión invisible e instantánea entre partículas, más allá de los límites clásicos.</p>
+  </div>
+
+  <!-- ¿Qué es el entrelazamiento? -->
+  <div class="bg-white bg-opacity-10 rounded-lg p-6 shadow-lg property-box">
+    <h2 class="text-2xl text-yellow-300 mb-4 flex items-center">
+      <i class="fas fa-link mr-3"></i>¿Qué es el entrelazamiento?
+    </h2>
+    <p class="text-gray-200">Dos partículas entrelazadas comparten un estado común, sin importar la distancia que las separe. Cambiar el estado de una afecta instantáneamente a la otra. ¡Es como si estuvieran conectadas por un hilo invisible!</p>
+  </div>
+
+  <!-- Ejemplo didáctico -->
+  <div class="bg-white bg-opacity-10 rounded-lg p-6 shadow-lg property-box">
+    <h2 class="text-2xl text-yellow-300 mb-4 flex items-center">
+      <i class="fas fa-lightbulb mr-3"></i>Ejemplo sencillo
+    </h2>
+    <p class="text-gray-200">Imagina que tienes dos cajas misteriosas: si abres una y encuentras una pelotita roja, sabes de inmediato que la otra tiene una azul, ¡aunque esté en otra galaxia! Eso es entrelazamiento: el destino de ambas está conectado.</p>
+  </div>
+
+  <!-- Características -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white bg-opacity-10 rounded-lg p-6 property-box">
+      <h3 class="text-xl font-semibold text-yellow-300 mb-3"><i class="fas fa-bolt mr-2"></i>Instantaneidad</h3>
+      <p class="text-gray-200">La información parece transmitirse de forma instantánea, desafiando la velocidad de la luz. Pero en realidad, no viaja información clásica, sino correlaciones.</p>
+    </div>
+    <div class="bg-white bg-opacity-10 rounded-lg p-6 property-box">
+      <h3 class="text-xl font-semibold text-yellow-300 mb-3"><i class="fas fa-infinity mr-2"></i>Independencia de la distancia</h3>
+      <p class="text-gray-200">Ya sea unos centímetros o millones de kilómetros, las partículas siguen entrelazadas. Einstein lo llamó "una acción fantasmal a distancia".</p>
+    </div>
+  </div>
+
+  <!-- Aplicaciones modernas -->
+  <div class="bg-white bg-opacity-10 rounded-lg p-6 shadow-lg property-box">
+    <h2 class="text-2xl text-yellow-300 mb-4 flex items-center">
+      <i class="fas fa-rocket mr-3"></i>Aplicaciones modernas
+    </h2>
+    <ul class="list-disc list-inside space-y-2 text-gray-300">
+      <li><span class="text-yellow-200 font-semibold">Criptografía cuántica</span>: comunicación 100% segura basada en entrelazamiento.</li>
+      <li><span class="text-yellow-200 font-semibold">Computación cuántica</span>: procesadores que usan qubits entrelazados para realizar cálculos ultra rápidos.</li>
+      <li><span class="text-yellow-200 font-semibold">Teletransportación cuántica</span>: transferir información de un qubit a otro instantáneamente.</li>
+    </ul>
+  </div>
+
+  <!-- Curiosidad -->
+  <div class="text-xs text-gray-400 text-center mt-10">
+    <p><i class="fas fa-question-circle mr-1"></i> En 2022, se otorgó el Premio Nobel de Física a Alain Aspect, John F. Clauser y Anton Zeilinger por experimentos sobre el entrelazamiento cuántico.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

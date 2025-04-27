@@ -1,0 +1,243 @@
+<!-- Página Completa Mejorada Final: Principio de Incertidumbre con Visualización Interactiva y Teoría -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Principio de Incertidumbre Interactivo</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(145deg, #1a2a6c, #2e1a47);
+      color: #e0e7ff;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #facc15;
+    }
+    .home-button {
+      position: absolute; top: 20px; left: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #facc15;
+      transition: background 0.3s, transform 0.3s;
+      z-index: 50;
+    }
+    .home-button:hover { background: rgba(250, 204, 21, 0.2); transform: scale(1.05); }
+    .content-box {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      margin-bottom: 2rem;
+    }
+    #uncertaintyCanvas {
+      width: 100%;
+      max-width: 700px;
+      height: 320px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 8px;
+      margin: 1.5rem auto;
+      display: block;
+      border: 2px solid rgba(250, 204, 21, 0.3);
+    }
+    .viz-controls button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #facc15;
+      color: #facc15;
+      padding: 10px 20px;
+      margin: 8px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+    .viz-controls button:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: #facc15;
+      white-space: nowrap;
+    }
+    .viz-controls button.active {
+      background-color: #facc15;
+      color: #1e3a8a;
+      font-weight: 700;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .formula-box {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="home-button">
+  <i class="fas fa-home mr-2"></i>Inicio
+</a>
+
+<div class="container mx-auto px-4 py-10 pt-24">
+  <div class="text-center mb-12">
+    <h1 class="text-5xl font-bold mb-2">Principio de Incertidumbre</h1>
+    <p class="text-lg text-gray-300">Visualiza cómo posición y momento no pueden conocerse con precisión infinita.</p>
+  </div>
+
+  <div class="content-box">
+    <h2 class="text-2xl font-semibold mb-4">Teoría: ¿Qué es el Principio de Incertidumbre?</h2>
+    <p class="text-gray-300 mb-4">
+      En la mecánica cuántica, el <strong>Principio de Incertidumbre de Heisenberg</strong> establece que existen pares de propiedades físicas, como la <strong>posición</strong> y el <strong>momento</strong>, que no pueden conocerse ambas con precisión infinita al mismo tiempo.
+    </p>
+    <p class="text-gray-300 mb-6">
+      Cuanto mejor conocemos una de estas propiedades, mayor es la incertidumbre en la otra. Este límite es una <strong>propiedad fundamental de la naturaleza misma</strong>.
+    </p>
+    <div class="formula-box">
+      $$ \Delta x \times \Delta p \geq \frac{\hbar}{2} $$
+    </div>
+    <ul class="list-disc list-inside space-y-2 text-gray-300">
+      <li><strong>Δx</strong>: Incertidumbre en la posición.</li>
+      <li><strong>Δp</strong>: Incertidumbre en el momento.</li>
+      <li><strong>ħ</strong>: Constante reducida de Planck.</li>
+    </ul>
+    <p class="text-gray-300 mt-4">
+      Este principio nos impide determinar trayectorias exactas de partículas a nivel cuántico.
+    </p>
+  </div>
+
+  <div class="content-box">
+    <h2 class="text-2xl font-semibold mb-4">Visualización Interactiva</h2>
+    <canvas id="uncertaintyCanvas"></canvas>
+    <div class="viz-controls text-center">
+      <button id="narrowBtn" data-tooltip="Paquete de ondas angosto: precisa posición.">📍 Precisar Posición</button>
+      <button id="wideBtn" data-tooltip="Paquete de ondas ancho: precisa momento.">💨 Precisar Momento</button>
+      <button id="playPauseBtn" data-tooltip="Iniciar/detener evolución temporal."▶️/⏸️ Play/Stop</button>
+      <button id="resetBtn" data-tooltip="Restablecer condiciones iniciales.">🔄 Reset</button>
+    </div>
+  </div>
+
+</div>
+
+<footer class="mt-12 pb-6 text-center text-xs text-gray-400">
+  Visualización interactiva educativa sobre el Principio de Incertidumbre.
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('uncertaintyCanvas');
+    const ctx = canvas.getContext('2d');
+    const narrowBtn = document.getElementById('narrowBtn');
+    const wideBtn = document.getElementById('wideBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+
+    let positionSpread = 30;
+    let wavelengthSpread = 5;
+    let animate = false;
+    let time = 0;
+
+    function drawWavePacket(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      for (let i = 0; i < 25; i++) {
+        const lambda = 15 + (Math.random() - 0.5) * wavelengthSpread * 2;
+        const k = 2 * Math.PI / lambda;
+        const phase = Math.random() * Math.PI * 2;
+
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(250, 204, 21, ${0.2 + Math.random() * 0.5})`;
+
+        for (let x = 0; x <= canvas.width; x++) {
+          const envelope = Math.exp(-Math.pow((x - centerX) / positionSpread, 2));
+          const y = centerY + envelope * 60 * Math.sin(k * (x - centerX) - 2 * k * t + phase);
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      // Dibujo de partícula moviéndose en la envolvente
+      const particleX = centerX + 60 * Math.sin(0.002 * t);
+      const particleY = centerY;
+      ctx.beginPath();
+      ctx.arc(particleX, particleY, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = '#facc15';
+      ctx.fill();
+    }
+
+    function loop() {
+      if (animate) {
+        time += 1;
+        drawWavePacket(time);
+        requestAnimationFrame(loop);
+      }
+    }
+
+    narrowBtn.addEventListener('click', () => {
+      positionSpread = 15;
+      wavelengthSpread = 15;
+      drawWavePacket(time);
+      setActive(narrowBtn);
+    });
+
+    wideBtn.addEventListener('click', () => {
+      positionSpread = 60;
+      wavelengthSpread = 2;
+      drawWavePacket(time);
+      setActive(wideBtn);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      positionSpread = 30;
+      wavelengthSpread = 5;
+      drawWavePacket(0);
+      setActive(resetBtn);
+      animate = false;
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      animate = !animate;
+      if (animate) loop();
+      setActive(playPauseBtn);
+    });
+
+    function setActive(button) {
+      [narrowBtn, wideBtn, playPauseBtn, resetBtn].forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    }
+
+    // Inicializar
+    canvas.width = 700;
+    canvas.height = 320;
+    drawWavePacket(0);
+    setActive(resetBtn);
+  });
+</script>
+
+</body>
+</html>

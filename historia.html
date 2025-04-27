@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Cuántica: Un Viaje Interactivo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558fYv3mQPGEieCEEBwrMWLPuxvjErGO80EVKYHk7ixJWGyEKp4XB7dA" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1LPkxIOlRrFGM0" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+        onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false} ] });">
+    </script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(145deg, #1a2a6c, #2e1a47); /* Adjusted gradient */
+            color: #e0e7ff; /* Slightly softer white */
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #facc15; /* Primary yellow */
+        }
+        .home-button {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255, 255, 255, 0.1); padding: 10px 20px;
+            border-radius: 12px; font-weight: bold; display: flex;
+            align-items: center; text-decoration: none; color: #facc15;
+            transition: background 0.3s, transform 0.3s; z-index: 50;
+        }
+        .home-button:hover { background: rgba(250, 204, 21, 0.2); transform: scale(1.05); }
+        .content-box {
+            background: rgba(255, 255, 255, 0.06); border-radius: 0.75rem;
+            padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        /* Enhanced Vertical Timeline Styles */
+        .timeline-container {
+            position: relative;
+            max-width: 700px; /* Centered content */
+            margin: 3rem auto;
+            padding: 1rem 0;
+        }
+        .timeline-container::before { /* The vertical line */
+            content: ''; position: absolute;
+            top: 10px; bottom: 10px; /* Start/end slightly offset */
+            left: 24px; /* Center the line relative to the larger dot */
+            width: 4px;
+            background: linear-gradient(to bottom, rgba(250, 204, 21, 0.3), #facc15, rgba(250, 204, 21, 0.3)); /* Gradient line */
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.5);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem; /* Increased space */
+            padding-left: 70px; /* More space for icon/dot */
+            opacity: 0;
+            transform: translateX(-40px) scale(0.95);
+            transition: opacity 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+        .timeline-dot { /* Larger, more prominent dot */
+            position: absolute;
+            left: 10px; /* Position relative to container */
+            top: 0px;
+            height: 28px;
+            width: 28px;
+            background-color: #4f46e5; /* Purple accent */
+            border: 4px solid #facc15; /* Yellow border */
+            border-radius: 50%;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white; /* Icon color */
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.7);
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.2); /* Enlarge dot on hover */
+        }
+        .timeline-date {
+            font-weight: 600;
+            color: #a5b4fc; /* Lighter indigo */
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1.25rem; /* More padding */
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative; /* For potential pseudo-elements */
+            transition: box-shadow 0.3s ease;
+        }
+        .timeline-item:hover .timeline-content {
+             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .timeline-title {
+            font-weight: 700;
+            color: #fde047; /* Lighter yellow */
+            margin-bottom: 0.75rem; /* More space below title */
+            font-size: 1.1rem;
+        }
+        .timeline-problem { /* Styling for the "Problem" text */
+             font-size: 0.85rem;
+             color: #fda4af; /* Light red/pink for problems */
+             margin-bottom: 0.5rem;
+             font-style: italic;
+        }
+        .timeline-text {
+            font-size: 0.95rem;
+            color: #d1d5db; /* Lighter gray */
+            line-height: 1.6;
+        }
+        .timeline-text strong { color: #facc15; } /* Highlight key terms */
+        /* KaTeX styling */
+        .katex { font-size: 1.05em !important; color: #fde047 !important; }
+        /* Button Style */
+        .button-primary {
+             background-color: #facc15; color: #1e3a8a; border: 1px solid #eab308;
+             padding: 8px 16px; font-size: 0.875rem; font-weight: 500;
+             border-radius: 0.375rem; transition: all 0.15s ease-in-out;
+             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800;
+             display: inline-block; /* Make it inline-block */
+             margin-top: 1rem; /* Add margin if needed */
+         }
+         .button-primary:hover { background-color: #fde047; transform: scale(1.03); }
+         .button-primary:focus { ring-color: #facc15; }
+         .button-primary:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="home-button">
+    <i class="fas fa-home mr-2"></i>Inicio
+</a>
+
+<div class="container mx-auto px-4 py-10 pt-20">
+
+    <div class="text-center md:text-left mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-2">La Odisea Cuántica</h1>
+        <div class="h-1 w-24 bg-yellow-300 rounded mb-4 mx-auto md:mx-0"></div>
+        <p class="text-lg text-gray-300">Un viaje a través de los descubrimientos que revolucionaron la física.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <div class="content-box">
+            <h3 class="text-xl font-semibold text-yellow-300 mb-3 flex items-center">
+                <i class="fas fa-exclamation-triangle mr-3 text-lg text-red-400"></i>La Crisis de la Física Clásica
+            </h3>
+            <p class="text-sm text-gray-200">
+                A finales del siglo XIX, la física parecía tener respuestas para casi todo (movimiento, gravedad, electromagnetismo). Sin embargo, experimentos con luz y átomos empezaron a dar resultados <strong class="text-yellow-100">extraños e inexplicables</strong> con las teorías existentes. ¡Algo fundamental faltaba!
+            </p>
+        </div>
+        <div class="content-box">
+            <h3 class="text-xl font-semibold text-yellow-300 mb-3 flex items-center">
+                <i class="fas fa-brain mr-3 text-lg text-blue-400"></i>Nace una Nueva Física
+            </h3>
+            <p class="text-sm text-gray-200">
+                Para resolver estas "anomalías", una generación de físicos audaces propuso ideas revolucionarias: la energía no era continua, la luz podía ser partícula, ¡y la materia podía ser onda! Esta nueva forma de pensar, la <strong class="text-yellow-100">Mecánica Cuántica</strong>, cambió para siempre nuestra visión del universo.
+            </p>
+        </div>
+    </div>
+
+
+    <div>
+        <h2 class="text-3xl text-center mb-10 text-yellow-300">Hitos de la Revolución Cuántica</h2>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-dot" title="Cuantización"><i class="fas fa-cubes"></i></div>
+                <span class="timeline-date">1900 - Max Planck</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">El Nacimiento del Cuanto</h4>
+                    <p class="timeline-problem">Problema: La "catástrofe ultravioleta" en la radiación del cuerpo negro.</p>
+                    <p class="timeline-text">Idea Clave: La energía se emite/absorbe en paquetes discretos (cuantos), $E=h\nu$. ¡La energía no es continua!</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot" title="Fotón"><i class="fas fa-lightbulb"></i></div>
+                 <span class="timeline-date">1905 - Albert Einstein</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">La Luz como Partícula</h4>
+                     <p class="timeline-problem">Problema: El efecto fotoeléctrico (electrones emitidos por luz).</p>
+                    <p class="timeline-text">Idea Clave: La luz misma está cuantizada en partículas llamadas <strong class="text-yellow-100">fotones</strong>. Explica por qué la energía del electrón depende de la frecuencia (color) de la luz, no de su intensidad.</p>
+                </div>
+            </div>
+             <div class="timeline-item">
+                <div class="timeline-dot" title="Núcleo Atómico"><i class="fas fa-bullseye"></i></div>
+                 <span class="timeline-date">1911 - Ernest Rutherford</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">Descubrimiento del Núcleo</h4>
+                     <p class="timeline-problem">Problema: ¿Cómo es la estructura interna del átomo?</p>
+                    <p class="timeline-text">Idea Clave: Bombardeando una lámina de oro, descubrió que la masa positiva del átomo se concentra en un <strong class="text-yellow-100">núcleo diminuto y denso</strong>, con electrones orbitando lejos (modelo planetario).</p>
+                </div>
+            </div>
+             <div class="timeline-item">
+                <div class="timeline-dot" title="Órbitas Cuantizadas"><i class="fas fa-layer-group"></i></div>
+                 <span class="timeline-date">1913 - Niels Bohr</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">El Átomo Cuantizado</h4>
+                     <p class="timeline-problem">Problema: ¿Por qué los átomos solo emiten luz de colores específicos (espectros)? ¿Por qué los electrones no caen al núcleo?</p>
+                    <p class="timeline-text">Idea Clave: Los electrones solo pueden existir en <strong class="text-yellow-100">órbitas con energía específica (cuantizada)</strong>. Saltan entre órbitas emitiendo/absorbiendo fotones de energía definida.</p>
+                </div>
+            </div>
+             <div class="timeline-item">
+                <div class="timeline-dot" title="Ondas de Materia"><i class="fas fa-wave-square"></i></div>
+                 <span class="timeline-date">1924 - Louis de Broglie</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">¡La Materia también es Onda!</h4>
+                     <p class="timeline-problem">Problema: Si la luz puede ser onda y partícula, ¿podría la materia también?</p>
+                    <p class="timeline-text">Idea Clave: Propuso que las partículas de materia (electrones, etc.) tienen una <strong class="text-yellow-100">longitud de onda asociada</strong> ($\lambda = h/p$). Confirmado experimentalmente después (difracción de electrones).</p>
+                </div>
+            </div>
+             <div class="timeline-item">
+                 <div class="timeline-dot" title="Incertidumbre"><i class="fas fa-arrows-alt-h"></i></div>
+                 <span class="timeline-date">1925-27 - Werner Heisenberg</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">Mecánica Matricial y Principio de Incertidumbre</h4>
+                     <p class="timeline-problem">Problema: ¿Cómo describir matemáticamente la cuántica sin órbitas definidas?</p>
+                    <p class="timeline-text">Idea Clave: Desarrolló la mecánica matricial y formuló el <strong class="text-yellow-100">Principio de Incertidumbre</strong>: es imposible conocer con precisión absoluta pares de propiedades como posición y momento ($\Delta x \Delta p \ge \hbar/2$).</p>
+                </div>
+            </div>
+             <div class="timeline-item">
+                <div class="timeline-dot" title="Ecuación de Onda"><i class="fas fa-scroll"></i></div>
+                 <span class="timeline-date">1926 - Erwin Schrödinger</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">La Ecuación Maestra</h4>
+                     <p class="timeline-problem">Problema: ¿Cómo describir la evolución de las "ondas de materia"?</p>
+                    <p class="timeline-text">Idea Clave: Formuló la <strong class="text-yellow-100">Ecuación de Schrödinger</strong> ($i\hbar \frac{\partial}{\partial t}\psi = \hat{H}\psi$), que describe cómo cambia la función de onda $\psi$ (y el estado cuántico) con el tiempo. Es la ecuación central de la cuántica no relativista.</p>
+                </div>
+            </div>
+             <div class="timeline-item">
+                 <div class="timeline-dot" title="Antimateria"><i class="fas fa-plus-minus"></i></div>
+                 <span class="timeline-date">1928 - Paul Dirac</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">Unificando Cuántica y Relatividad</h4>
+                     <p class="timeline-problem">Problema: ¿Cómo describir electrones a altas velocidades (relativistas)?</p>
+                    <p class="timeline-text">Idea Clave: Formuló la <strong class="text-yellow-100">Ecuación de Dirac</strong>, que unifica la cuántica y la relatividad especial para fermiones. Predijo la existencia de la <strong class="text-yellow-100">antimateria</strong> (el positrón, $e^+$).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-10 bg-yellow-500 bg-opacity-10 rounded-lg p-6 border-l-4 border-yellow-400">
+        <h3 class="font-semibold mb-3 text-yellow-200 text-lg">Legado de la Revolución Cuántica</h3>
+        <ul class="list-disc list-inside text-sm grid grid-cols-1 md:grid-cols-2 gap-x-6 text-gray-200">
+            <li>Cambió radicalmente nuestra visión del universo a escala fundamental.</li>
+            <li>Introdujo conceptos como cuantización, dualidad, probabilidad e incertidumbre.</li>
+            <li>Es la base de gran parte de la tecnología moderna (transistores, láseres, MRI...).</li>
+            <li>Abrió la puerta a campos como la física de partículas, la materia condensada y la información cuántica.</li>
+            <li>¡La exploración del mundo cuántico continúa hoy en día!</li>
+        </ul>
+    </div>
+
+</div> <footer class="mt-12 pb-6 text-center text-xs text-gray-400">
+    Página sobre la Historia de la Mecánica Cuántica.
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Animación Timeline con Intersection Observer ---
+        const timelineItems = document.querySelectorAll('.timeline-item');
+
+        // Crear un observer
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Añadir clase 'visible' cuando el elemento entra en la vista
+                    entry.target.classList.add('visible');
+                    // Opcional: Dejar de observar una vez animado
+                    // obs.unobserve(entry.target);
+                }
+                // Opcional: Quitar clase si sale de la vista (para re-animar al volver a scrollear)
+                // else {
+                //     entry.target.classList.remove('visible');
+                // }
+            });
+        }, {
+            rootMargin: '0px', // Margen alrededor del viewport
+            threshold: 0.2 // Trigger cuando el 20% del elemento es visible
+        });
+
+        // Observar cada item de la línea de tiempo
+        timelineItems.forEach(item => {
+            observer.observe(item);
+        });
+
+        // --- Renderizado KaTeX ---
+        // Función para asegurar que KaTeX se renderice correctamente
+        function renderAllMath() {
+            if (window.renderMathInElement) {
+                try {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false}
+                        ],
+                        throwOnError: false
+                    });
+                } catch (error) {
+                    console.error("Error rendering KaTeX:", error);
+                }
+            } else {
+                console.warn("KaTeX auto-render script not loaded yet or failed.");
+            }
+        }
+
+        // Renderizar inicialmente y después de un pequeño retraso
+        // (por si la fuente o el layout tardan en estabilizarse)
+        renderAllMath();
+        setTimeout(renderAllMath, 500); // Re-renderizar después de 500ms
+
+    });
+</script>
+
+</body>
+</html>

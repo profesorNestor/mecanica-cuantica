@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos Atómicos - Un Viaje Cuántico</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81); /* Consistent gradient background */
+            color: white;
+            overflow-x: hidden;
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        .home-button { /* Consistent home button style */
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #facc15;
+            transition: background 0.3s, transform 0.3s;
+            z-index: 50;
+        }
+        .home-button:hover {
+            background: rgba(250, 204, 21, 0.2);
+            transform: scale(1.05);
+        }
+        .content-box { /* Consistent content box style */
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1.5rem; /* p-6 */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%; /* Make boxes in grid same height */
+            display: flex;
+            flex-direction: column;
+        }
+        .content-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .model-icon { /* Simple icons for early models */
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        /* Interactive Visualization Styles */
+        #atomVisualization {
+            width: 100%;
+            max-width: 350px; /* Limit max size */
+            height: 350px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%; /* Circular canvas */
+            margin: 1rem auto;
+            display: block;
+            border: 2px solid rgba(250, 204, 21, 0.3); /* Yellow border */
+        }
+        .viz-controls button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #facc15;
+            color: #facc15;
+            padding: 8px 12px;
+            margin: 0 5px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s, transform 0.1s;
+            cursor: pointer;
+        }
+        .viz-controls button:hover {
+            background-color: rgba(250, 204, 21, 0.2);
+        }
+         .viz-controls button.active {
+            background-color: #facc15;
+            color: #1e3a8a;
+            font-weight: 700;
+            transform: scale(1.05);
+        }
+        .viz-controls button:active {
+             transform: scale(0.95);
+        }
+        /* Simple Timeline */
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline::before {
+            content: ''; position: absolute;
+            left: 10px; top: 0; bottom: 0;
+            width: 4px; background-color: #facc15; border-radius: 2px;
+        }
+        .timeline-item { position: relative; margin-bottom: 30px; padding-left: 40px; }
+        .timeline-dot {
+            position: absolute; left: 0px; top: 5px;
+            height: 24px; width: 24px;
+            background-color: #1e3a8a; border: 3px solid #facc15;
+            border-radius: 50%; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .timeline-date { font-weight: 600; color: #fde047; margin-bottom: 0.25rem; }
+        .timeline-content { background: rgba(255, 255, 255, 0.05); padding: 10px 15px; border-radius: 8px; }
+
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="home-button">
+    <i class="fas fa-home mr-2"></i>Inicio
+</a>
+
+<div class="container mx-auto px-4 py-10 pt-20">
+
+    <div class="text-center md:text-left mb-10">
+        <h1 class="text-4xl font-bold mb-2">Modelos Atómicos</h1>
+        <div class="h-1 w-24 bg-yellow-300 rounded mb-3 mx-auto md:mx-0"></div>
+        <p class="text-lg text-gray-200">Un viaje desde la esfera indivisible hasta la nube cuántica</p>
+    </div>
+
+    <div class="content-box mb-12">
+        <h3 class="text-xl font-semibold text-yellow-300 mb-3 flex items-center">
+            <i class="fas fa-history mr-3 text-lg"></i>¿Cómo imaginamos el átomo?
+        </h3>
+        <p class="text-sm text-gray-200">
+            La idea de que la materia está hecha de pequeñas partículas (átomos) es muy antigua, ¡pero la forma en que imaginamos esos átomos ha cambiado muchísimo! Los científicos han propuesto diferentes <strong class="text-yellow-100">modelos</strong> a lo largo de la historia, cada uno basado en nuevos descubrimientos experimentales. Este viaje nos llevó desde simples esferas hasta la extraña pero fascinante imagen cuántica.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div class="content-box">
+             <h2 class="text-2xl font-semibold text-yellow-300 mb-6 text-center">Evolución de la Idea</h2>
+             <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"><i class="fas fa-circle text-xs"></i></div>
+                    <div class="timeline-date">1808 - John Dalton</div>
+                    <div class="timeline-content">
+                        <h4 class="font-semibold mb-1">Modelo de la "Bola de Billar"</h4>
+                        <p class="text-xs text-gray-300">Imaginó los átomos como esferas diminutas, sólidas e indivisibles. Diferentes elementos tenían átomos de diferente masa.</p>
+                    </div>
+                </div>
+                 <div class="timeline-item">
+                    <div class="timeline-dot"><i class="fas fa-cookie-bite text-xs"></i></div>
+                    <div class="timeline-date">1904 - J.J. Thomson</div>
+                    <div class="timeline-content">
+                        <h4 class="font-semibold mb-1">Modelo del "Pudín de Pasas"</h4>
+                        <p class="text-xs text-gray-300">Tras descubrir el electrón, propuso que los átomos eran una esfera de carga positiva con electrones (carga negativa) incrustados, como pasas en un pudín.</p>
+                    </div>
+                </div>
+                 <div class="timeline-item">
+                    <div class="timeline-dot"><i class="fas fa-bullseye text-xs"></i></div>
+                    <div class="timeline-date">1911 - Ernest Rutherford</div>
+                    <div class="timeline-content">
+                        <h4 class="font-semibold mb-1">Modelo Nuclear o Planetario</h4>
+                        <p class="text-xs text-gray-300">Su famoso experimento de la lámina de oro demostró que el átomo era mayormente vacío, con un núcleo central muy pequeño y denso (carga positiva) y electrones orbitando alrededor.</p>
+                    </div>
+                </div>
+                 <div class="timeline-item">
+                    <div class="timeline-dot"><i class="fas fa-layer-group text-xs"></i></div>
+                    <div class="timeline-date">1913 - Niels Bohr</div>
+                    <div class="timeline-content">
+                        <h4 class="font-semibold mb-1">Modelo de Órbitas Cuantizadas</h4>
+                        <p class="text-xs text-gray-300">Propuso que los electrones solo podían orbitar en niveles de energía específicos (órbitas cuantizadas), explicando los espectros de luz emitidos por los átomos.</p>
+                    </div>
+                </div>
+                 <div class="timeline-item">
+                    <div class="timeline-dot"><i class="fas fa-cloud text-xs"></i></div>
+                    <div class="timeline-date">~1926 - Schrödinger y otros</div>
+                    <div class="timeline-content">
+                        <h4 class="font-semibold mb-1">Modelo Cuántico (Nube Electrónica)</h4>
+                        <p class="text-xs text-gray-300">El modelo actual. Describe a los electrones no en órbitas definidas, sino como "nubes de probabilidad" (orbitales) alrededor del núcleo, definidos por la ecuación de Schrödinger.</p>
+                    </div>
+                </div>
+             </div>
+        </div>
+
+        <div class="content-box flex flex-col">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-4 text-center">Visualización Interactiva</h2>
+            <p class="text-sm text-center text-gray-300 mb-4">Compara los modelos clave (simplificados):</p>
+            <canvas id="atomVisualization"></canvas>
+            <div class="viz-controls text-center mt-4">
+                <button data-model="rutherford">Rutherford</button>
+                <button data-model="bohr" class="active">Bohr</button> <button data-model="quantum">Cuántico</button>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-700 text-xs text-gray-400 flex-grow">
+                <p><strong class="text-yellow-200">Rutherford:</strong> Núcleo central, electrones orbitando (inestable clásicamente).</p>
+                <p><strong class="text-yellow-200">Bohr:</strong> Órbitas definidas y cuantizadas (solo funciona bien para H).</p>
+                <p><strong class="text-yellow-200">Cuántico:</strong> Nube de probabilidad (orbital) donde es más probable encontrar al electrón.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-10 bg-yellow-500 bg-opacity-10 rounded-lg p-4 border-l-4 border-yellow-400">
+        <h3 class="font-semibold mb-2 text-yellow-200">Ideas Principales</h3>
+        <ul class="list-disc list-inside text-sm grid grid-cols-1 md:grid-cols-2 gap-x-6 text-gray-200">
+            <li>Nuestra comprensión del átomo ha evolucionado enormemente gracias a experimentos clave.</li>
+            <li>El modelo de Rutherford introdujo el núcleo atómico.</li>
+            <li>El modelo de Bohr introdujo la cuantización de la energía de los electrones.</li>
+            <li>El modelo cuántico actual describe a los electrones mediante probabilidades y orbitales, no órbitas fijas.</li>
+            <li>Cada modelo fue un paso importante, construido sobre el anterior.</li>
+        </ul>
+    </div>
+
+</div> <footer class="mt-12 pb-6 text-center text-xs text-gray-400">
+    Página sobre Modelos Atómicos.
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('atomVisualization');
+    const ctx = canvas.getContext('2d');
+    const controls = document.querySelector('.viz-controls');
+    let currentModel = 'bohr';
+    let animationFrameId = null;
+
+    function drawNucleus(centerX, centerY) {
+      ctx.fillStyle = '#facc15';
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.fillStyle = '#1e3a8a';
+      ctx.font = 'bold 12px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('+', centerX, centerY + 1);
+    }
+
+    function drawRutherford(time) {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const orbitRadius = Math.min(centerX, centerY) * 0.6;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawNucleus(centerX, centerY);
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, orbitRadius, 0, 2 * Math.PI);
+      ctx.stroke();
+
+      const angle = time / 1000;
+      const electronX = centerX + orbitRadius * Math.cos(angle);
+      const electronY = centerY + orbitRadius * Math.sin(angle);
+
+      ctx.fillStyle = '#a78bfa';
+      ctx.beginPath();
+      ctx.arc(electronX, electronY, 5, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    function drawBohr(time) {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radii = [
+        Math.min(centerX, centerY) * 0.3,
+        Math.min(centerX, centerY) * 0.55,
+        Math.min(centerX, centerY) * 0.8
+      ];
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawNucleus(centerX, centerY);
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.lineWidth = 1.5;
+      radii.forEach(r => {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, r, 0, 2 * Math.PI);
+        ctx.stroke();
+      });
+
+      ctx.fillStyle = '#a78bfa';
+      ctx.globalAlpha = 0.8;
+      for (let i = 0; i < radii.length; i++) {
+        const angle = (time / (1200 + i * 500)) * (i % 2 === 0 ? 1 : -1);
+        ctx.beginPath();
+        ctx.arc(centerX + radii[i] * Math.cos(angle), centerY + radii[i] * Math.sin(angle), 5, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1.0;
+    }
+
+    function drawQuantumCloud(time) {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const maxRadius = Math.min(centerX, centerY) * 0.9;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Núcleo pulsando
+      const pulsate = 1 + 0.05 * Math.sin(time / 300);
+      ctx.fillStyle = '#facc15';
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 10 * pulsate, 0, 2 * Math.PI);
+      ctx.fill();
+
+      // Nube cuántica animada
+      for (let i = 0; i < 600; i++) {
+        const randomFactor = Math.random() * Math.random();
+        const r = randomFactor * maxRadius;
+        const angle = Math.random() * 2 * Math.PI;
+        const x = centerX + r * Math.cos(angle);
+        const y = centerY + r * Math.sin(angle);
+
+        const opacity = (1 - r / maxRadius) * 0.5 + 0.05;
+        ctx.fillStyle = `rgba(167, 139, 250, ${opacity})`;
+        ctx.fillRect(x, y, 1.2, 1.2);
+      }
+    }
+
+    function animate(time) {
+      if (currentModel === 'rutherford') drawRutherford(time);
+      if (currentModel === 'bohr') drawBohr(time);
+      if (currentModel === 'quantum') drawQuantumCloud(time);
+      animationFrameId = requestAnimationFrame(animate);
+    }
+
+    controls.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        currentModel = e.target.dataset.model;
+        controls.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+      }
+    });
+
+    canvas.width = 350;
+    canvas.height = 350;
+    animate(0);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dualidad Onda-Partícula con Simulación</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81); /* Gradient background from original page */
+            color: white;
+            overflow-x: hidden;
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #facc15; /* Yellow color from original page */
+            transition: background 0.3s, transform 0.3s;
+            z-index: 50; /* Ensure it's above other elements */
+        }
+        .home-button:hover {
+            background: rgba(250, 204, 21, 0.2);
+            transform: scale(1.05); /* Slightly reduced hover scale */
+        }
+
+        /* Styles for the simulation integrated */
+        #simCanvas {
+            background: #000; /* Black background for the simulation canvas */
+            display: block;
+            margin: 0 auto;
+            border-radius: 0.5rem;
+            border: 1px solid #4a5568; /* Subtle border */
+            box-shadow: 0 0 15px rgba(183, 148, 244, 0.2); /* Purple glow from simulation */
+            max-width: 100%; /* Ensure canvas is responsive */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .slider-label {
+            font-size: 0.85rem; /* Slightly smaller labels */
+            color: #e2e8f0; /* Lighter gray text for labels */
+        }
+        .slider-value {
+            font-weight: 600; /* Semibold */
+            color: #facc15; /* Match yellow theme */
+        }
+        .chart-container {
+            background: rgba(0, 0, 0, 0.2); /* Darker, semi-transparent background for charts */
+            border-radius: 0.75rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Slider track and thumb styles */
+        input[type=range] {
+            -webkit-appearance: none; appearance: none;
+            width: 100%; height: 6px; /* Slightly thinner track */
+            background: #4b5563; /* Darker gray track */
+            border-radius: 5px;
+            cursor: pointer; outline: none;
+            transition: background 0.15s ease-in-out;
+        }
+        input[type=range]:hover { background: #6b7280; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 16px; height: 16px; /* Slightly smaller thumb */
+            background: #facc15; /* Yellow thumb to match theme */
+            border-radius: 50%;
+            cursor: pointer; transition: background 0.15s ease-in-out;
+        }
+        input[type=range]::-webkit-slider-thumb:hover { background: #fde047; } /* Lighter yellow on hover */
+        input[type=range]::-moz-range-thumb {
+            width: 16px; height: 16px;
+            background: #facc15; border-radius: 50%;
+            cursor: pointer; border: none;
+            transition: background 0.15s ease-in-out;
+        }
+         input[type=range]::-moz-range-thumb:hover { background: #fde047; }
+
+         /* Button styles to match theme */
+         .sim-button {
+             padding: 8px 16px; /* Adjusted padding */
+             font-size: 0.875rem; /* text-sm */
+             font-weight: 500; /* medium */
+             border-radius: 0.375rem; /* rounded-md */
+             transition: background-color 0.15s ease-in-out, transform 0.1s ease-in-out;
+             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800;
+         }
+         .sim-button:active {
+             transform: scale(0.98); /* Add press effect */
+         }
+         .button-primary {
+             background-color: #facc15; /* Yellow */
+             color: #1e3a8a; /* Dark blue text */
+             border: 1px solid #eab308;
+         }
+         .button-primary:hover { background-color: #fde047; }
+         .button-primary:focus { ring-color: #facc15; }
+
+         .button-secondary {
+             background-color: rgba(255, 255, 255, 0.1); /* Light background */
+             color: #fde047; /* Yellow text */
+             border: 1px solid rgba(250, 204, 21, 0.5);
+         }
+         .button-secondary:hover { background-color: rgba(255, 255, 255, 0.2); }
+         .button-secondary:focus { ring-color: #e2e8f0; }
+
+         .button-toggled { /* Style for when Quantum mode is ON */
+             background-color: #ca8a04; /* Darker Yellow */
+             color: #ffffff;
+             border: 1px solid #facc15;
+         }
+         .button-toggled:hover { background-color: #eab308; }
+
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="home-button">
+    <i class="fas fa-home mr-2"></i>Inicio
+</a>
+
+<div class="container mx-auto px-4 py-10 pt-20"> <div class="text-center md:text-left mb-10">
+        <h1 class="text-4xl font-bold mb-2">Dualidad Onda-Partícula</h1>
+        <div class="h-1 w-24 bg-yellow-300 rounded mb-3 mx-auto md:mx-0"></div>
+        <p class="text-lg text-gray-200">Comprendiendo el comportamiento dual de la materia y la luz.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white bg-opacity-10 rounded-lg p-6 shadow-lg backdrop-filter backdrop-blur-sm border border-gray-700">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-4 flex items-center">
+                <i class="fas fa-question-circle mr-3 text-xl"></i>¿Qué es la dualidad?
+            </h2>
+            <p class="text-gray-200">La <span class="font-bold text-yellow-100">dualidad onda-partícula</span> establece que entidades como los electrones y la luz pueden comportarse como <span class="font-bold text-yellow-100">partículas</span> y como <span class="font-bold text-yellow-100">ondas</span>, según cómo se midan.</p>
+        </div>
+
+        <div class="bg-white bg-opacity-10 rounded-lg p-6 shadow-lg backdrop-filter backdrop-blur-sm border border-gray-700">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-4 flex items-center">
+                <i class="fas fa-microscope mr-3 text-xl"></i>Experimento Clave
+            </h2>
+            <p class="text-gray-200">El experimento de la <span class="font-bold text-yellow-100">doble rendija</span> es la demostración más famosa:</p>
+            <ul class="list-disc list-inside ml-4 mt-2 space-y-1 text-gray-300">
+                <li>Medición del camino: comportamiento de partícula.</li>
+                <li>Sin medición: patrón de interferencia (ondas).</li>
+            </ul>
+        </div>
+
+        <div class="bg-white bg-opacity-10 rounded-lg p-6 shadow-lg backdrop-filter backdrop-blur-sm border border-gray-700">
+            <h2 class="text-2xl font-semibold text-yellow-300 mb-4 flex items-center">
+                <i class="fas fa-lightbulb mr-3 text-xl"></i>Significado Profundo
+            </h2>
+            <p class="text-gray-200">El acto de observar influye en el resultado. La <span class="font-bold text-yellow-100">realidad cuántica</span> no está definida hasta que se mide.</p>
+             <p class="text-xs text-center mt-4 pt-3 border-t border-gray-700">Propuesto por <span class="text-yellow-300 font-semibold">Louis de Broglie</span> (1924).</p>
+        </div>
+    </div>
+
+    <div class="mt-12 bg-white bg-opacity-5 rounded-xl shadow-lg p-4 md:p-6 border border-gray-700">
+        <h2 class="text-2xl font-semibold text-yellow-300 mb-5 text-center">
+            <i class="fas fa-atom mr-2"></i>Simulación Interactiva: Doble Rendija
+        </h2>
+
+        <div class="flex flex-col lg:flex-row gap-6 mb-6">
+            <div class="flex-shrink-0 flex flex-col items-center lg:w-1/2">
+                <canvas id="simCanvas" width="550" height="200"></canvas>
+                <p class="text-xs text-gray-400 mt-2">Pantalla de Detección</p>
+            </div>
+
+            <div class="flex-grow space-y-3 lg:w-1/2">
+                <div>
+                    <label class="slider-label block mb-1" for="particles">Tasa de Partículas (/s): <span id="particlesVal" class="slider-value">55</span></label>
+                    <input id="particles" type="range" min="10" max="200" value="55" class="w-full">
+                </div>
+                <div>
+                    <label class="slider-label block mb-1" for="slitDistance">Separación Rendijas (d): <span id="slitDistanceVal" class="slider-value">90</span></label>
+                    <input id="slitDistance" type="range" min="20" max="140" value="90" class="w-full" title="Separación entre centros de rendijas">
+                </div>
+                <div>
+                    <label class="slider-label block mb-1" for="slitWidth">Ancho Rendijas (a): <span id="slitWidthVal" class="slider-value">18</span></label>
+                    <input id="slitWidth" type="range" min="2" max="50" value="18" class="w-full" title="Ancho de cada rendija individual">
+                </div>
+                <div>
+                    <label class="slider-label block mb-1" for="lambda">Longitud de Onda (λ): <span id="lambdaVal" class="slider-value">5.0</span></label>
+                    <input id="lambda" type="range" min="1" max="15" value="5" step="0.1" class="w-full" title="Longitud de onda efectiva (escala el patrón)">
+                </div>
+                <div class="flex gap-3 pt-3 justify-center lg:justify-start">
+                    <button id="resetBtn" class="sim-button button-primary">Reiniciar</button>
+                    <button id="toggleBtn" class="sim-button button-secondary">Modo: <span id="modeLabel" class="font-semibold">Cuántico</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="chart-container p-4">
+                <h3 class="text-lg font-semibold mb-3 text-yellow-200 text-center">Histograma de Impactos</h3>
+                <div class="relative h-60 md:h-64"> <canvas id="histogramChart"></canvas>
+                </div>
+                <p class="mt-3 text-xs text-gray-400 text-center">Distribución real de partículas detectadas.</p>
+            </div>
+            <div class="chart-container p-4">
+                <h3 class="text-lg font-semibold mb-3 text-yellow-200 text-center">Intensidad Teórica</h3>
+                <div class="relative h-60 md:h-64"> <canvas id="intensityChart"></canvas>
+                </div>
+                <p class="mt-3 text-xs text-gray-400 text-center">Probabilidad según I ∝ cos²(β) sinc²(α).</p>
+            </div>
+        </div>
+    </div> <section class="mt-10 px-1 md:px-0">
+       <details class="rounded-lg bg-white bg-opacity-5 px-5 py-4 shadow border border-gray-700">
+        <summary class="cursor-pointer text-yellow-300 text-lg font-semibold hover:text-yellow-200 transition duration-150 ease-in-out list-none flex justify-between items-center">
+            <span>Detalles del Modelo Físico</span>
+            <i class="fas fa-chevron-down transition-transform duration-300 transform"></i>
+        </summary>
+        <div class="text-sm mt-4 text-gray-300 space-y-3 border-t border-gray-600 pt-3">
+          <p>La simulación calcula la probabilidad de impacto usando:</p>
+          <p><strong class="text-yellow-200">Intensidad (I) = (Factor Interferencia) × (Factor Difracción)</strong></p>
+          <ul class="list-disc ml-5 space-y-2">
+            <li><strong class="text-yellow-200">Interferencia (N=2):</strong> Proporcional a <strong class="text-yellow-100">cos²(β)</strong>, donde β = (π d sinθ) / λ. Crea las franjas finas.</li>
+            <li><strong class="text-yellow-200">Difracción:</strong> Proporcional a <strong class="text-yellow-100">sinc²(α)</strong>, donde α = (π a sinθ) / λ. Modula la intensidad general (envolvente).</li>
+            <li><strong class="text-yellow-200">Modo Cuántico:</strong> Usa la fórmula completa I = Interferencia × Difracción.</li>
+            <li><strong class="text-yellow-200">Modo Clásico:</strong> Muestra solo el efecto de la Difracción (la envolvente) en la gráfica teórica. Las partículas se simulan pasando por una rendija u otra con dispersión simple.</li>
+          </ul>
+        </div>
+       </details>
+       <script>
+            // Script para rotar el icono del <details>
+            const detailsElement = document.querySelector('details');
+            const summaryElement = detailsElement.querySelector('summary');
+            const iconElement = summaryElement.querySelector('i');
+
+            detailsElement.addEventListener('toggle', () => {
+                if (detailsElement.open) {
+                    iconElement.classList.remove('fa-chevron-down');
+                    iconElement.classList.add('fa-chevron-up');
+                } else {
+                    iconElement.classList.remove('fa-chevron-up');
+                    iconElement.classList.add('fa-chevron-down');
+                }
+            });
+        </script>
+    </section>
+
+
+</div> <footer class="mt-12 pb-6 text-center text-xs text-gray-400">
+    Página sobre Dualidad Onda-Partícula con simulación interactiva.
+</footer>
+
+<script>
+    // === GLOBAL VARIABLES AND CONFIGURATION ===
+    const simCanvas = document.getElementById('simCanvas');
+    // Check if canvas exists before getting context (robustness)
+    const simCtx = simCanvas ? simCanvas.getContext('2d') : null;
+    const width = simCanvas ? simCanvas.width : 550; // Default width if canvas fails
+    const height = simCanvas ? simCanvas.height : 200; // Default height
+
+    // UI Controls
+    const particlesSlider = document.getElementById('particles');
+    const particlesVal = document.getElementById('particlesVal');
+    const slitDistanceSlider = document.getElementById('slitDistance');
+    const slitDistanceVal = document.getElementById('slitDistanceVal');
+    const slitWidthSlider = document.getElementById('slitWidth');
+    const slitWidthVal = document.getElementById('slitWidthVal');
+    const lambdaSlider = document.getElementById('lambda');
+    const lambdaVal = document.getElementById('lambdaVal');
+    const resetBtn = document.getElementById('resetBtn');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const modeLabel = document.getElementById('modeLabel');
+
+    // Simulation State (initialize with defaults)
+    let mode = "quantum";
+    let nParticlesPerSec = 55;
+    let slitDistance = 90;
+    let slitWidth = 18;
+    let lambdaEffective = 5.0;
+    let impacts = new Array(width).fill(0);
+    let totalShots = 0;
+    let isRunning = true;
+    let animationFrameId = null;
+
+    // Chart.js variables
+    let histogramChart = null;
+    let intensityChart = null;
+
+    // Fixed geometric parameters
+    const slitY = height * 0.3;
+    const screenY = height * 0.95;
+    const slitHeight = height * 0.4;
+    // Adjusted L based on typical simulation appearance
+    const screenDistance_L = width * 1.2; // Slightly adjusted L
+
+    // === HELPER FUNCTIONS ===
+    function randomBetween(min, max) { return min + Math.random() * (max - min); }
+    function sinc(x) {
+        if (Math.abs(x) < 1e-6) return 1.0;
+        return Math.sin(x) / x;
+    }
+    function gaussianRand(mean, stdDev) {
+        let u = 0, v = 0;
+        while(u === 0) u = Math.random();
+        while(v === 0) v = Math.random();
+        let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+        return mean + stdDev * z;
+    }
+
+    // === PHYSICS SIMULATION LOGIC ===
+    function calculateIntensityAt(xCanvas, currentMode) {
+        const x_pos = xCanvas - width / 2;
+        const sinTheta = x_pos / screenDistance_L;
+        const a = Math.max(1e-6, slitWidth);
+        const d = slitDistance;
+        const lambda = Math.max(1e-6, lambdaEffective);
+        const alpha = (Math.PI * a * sinTheta) / lambda;
+        const beta = (Math.PI * d * sinTheta) / lambda;
+        const diffractionFactor = sinc(alpha) * sinc(alpha);
+        const interferenceFactor = Math.cos(beta) * Math.cos(beta);
+        let intensity = (currentMode === "quantum") ? interferenceFactor * diffractionFactor : diffractionFactor;
+        return isNaN(intensity) ? 0 : Math.max(0, intensity);
+    }
+
+    function sampleImpactX() {
+        if (mode === "classic") {
+            const mean1 = width / 2 - slitDistance / 2;
+            const mean2 = width / 2 + slitDistance / 2;
+            const stdDev = Math.max(2, screenDistance_L * lambdaEffective / (Math.max(1, slitWidth) * Math.PI));
+            let x_center = (Math.random() < 0.5) ? mean1 : mean2;
+            return gaussianRand(x_center, stdDev);
+        } else {
+            let xCanvas, prob, yRand;
+            const maxProb = 1.05;
+            let attempts = 0;
+            const maxAttempts = 50;
+            do {
+                xCanvas = randomBetween(0, width - 1);
+                prob = calculateIntensityAt(xCanvas, mode);
+                yRand = Math.random() * maxProb;
+                attempts++;
+                if (isNaN(prob)) { prob = 0; }
+            } while (yRand > prob && attempts < maxAttempts);
+             if (attempts >= maxAttempts) { return gaussianRand(width / 2, width / 4); }
+            return xCanvas;
+        }
+    }
+
+    // === CANVAS DRAWING FUNCTIONS ===
+    function drawSlits() {
+        if (!simCtx) return; // Exit if context is not available
+        simCtx.fillStyle = "#374151";
+        simCtx.fillRect(0, slitY - slitHeight / 2, width, slitHeight);
+        const slit1_x = width / 2 - slitDistance / 2 - slitWidth / 2;
+        const slit2_x = width / 2 + slitDistance / 2 - slitWidth / 2;
+        simCtx.clearRect(slit1_x, slitY - slitHeight / 2, slitWidth, slitHeight);
+        simCtx.clearRect(slit2_x, slitY - slitHeight / 2, slitWidth, slitHeight);
+        simCtx.strokeStyle = "#555";
+        simCtx.lineWidth = 0.5;
+        simCtx.strokeRect(slit1_x, slitY - slitHeight / 2, slitWidth, slitHeight);
+        simCtx.strokeRect(slit2_x, slitY - slitHeight / 2, slitWidth, slitHeight);
+    }
+
+    function drawImpact(x) {
+        if (!simCtx) return;
+        const impactY = screenY;
+        simCtx.beginPath();
+        simCtx.arc(x, impactY, 1.5, 0, 2 * Math.PI);
+        simCtx.closePath();
+        simCtx.fillStyle = "rgba(250, 204, 21, 0.4)"; // Yellow impacts to match theme, slightly more opaque
+        simCtx.shadowColor = "rgba(253, 249, 156, 0.5)"; // Lighter yellow glow
+        simCtx.shadowBlur = 5;
+        simCtx.fill();
+        simCtx.shadowBlur = 0;
+    }
+
+    function clearSimulationCanvasArea() {
+         if (!simCtx) return;
+         simCtx.fillStyle = '#000';
+         simCtx.fillRect(0, screenY - 10, width, 20);
+    }
+
+    // === MAIN SIMULATION LOOP ===
+    let lastTime = 0;
+    let timeAccumulator = 0;
+
+    function simulationLoop(currentTime) {
+        if (!isRunning || !simCtx) { // Stop if not running or no context
+             if (animationFrameId) cancelAnimationFrame(animationFrameId);
+             animationFrameId = null;
+             return;
+        }
+
+        const deltaTime = (currentTime - lastTime) / 1000;
+        lastTime = currentTime;
+        timeAccumulator += deltaTime;
+        const timePerParticle = 1.0 / nParticlesPerSec;
+        let particlesToSimulate = 0;
+        while (timeAccumulator >= timePerParticle) {
+            particlesToSimulate++;
+            timeAccumulator -= timePerParticle;
+        }
+
+        if (particlesToSimulate > 0) {
+             clearSimulationCanvasArea();
+            for (let i = 0; i < particlesToSimulate; i++) {
+                let x = sampleImpactX();
+                x = Math.max(1, Math.min(width - 2, x));
+                drawImpact(x);
+                const index = Math.floor(x);
+                if (index >= 0 && index < width) impacts[index]++;
+                totalShots++;
+            }
+            drawSlits();
+        }
+
+        if (totalShots % Math.max(10, Math.floor(nParticlesPerSec / 10)) === 0 && totalShots > 0) {
+           updateHistogramChart();
+        }
+
+        animationFrameId = requestAnimationFrame(simulationLoop);
+    }
+
+    // === CHART.JS INITIALIZATION AND UPDATES ===
+    function initCharts() {
+        // Ensure chart canvases exist
+        const histCanvas = document.getElementById('histogramChart');
+        const intenCanvas = document.getElementById('intensityChart');
+        if (!histCanvas || !intenCanvas) {
+             console.error("Chart canvas elements not found!");
+             return;
+        }
+        const histCtx = histCanvas.getContext('2d');
+        const intenCtx = intenCanvas.getContext('2d');
+
+        if (histogramChart) histogramChart.destroy();
+        if (intensityChart) intensityChart.destroy();
+
+        const commonXAxis = { display: false, grid: { display: false } };
+        const commonYAxis = {
+            beginAtZero: true,
+            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+            ticks: { color: '#cbd5e1', font: { size: 10 } } // Lighter ticks
+        };
+
+        histogramChart = new Chart(histCtx, {
+            type: 'bar',
+            data: { /* ... data setup ... */
+                labels: Array.from({ length: width }, (_, i) => i),
+                datasets: [{
+                    label: 'Impactos Detectados', data: impacts.slice(),
+                    backgroundColor: 'rgba(250, 204, 21, 0.7)', // Yellow bars
+                    borderWidth: 0, barPercentage: 1.0, categoryPercentage: 1.0
+                }]
+            },
+            options: { /* ... options setup ... */
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: commonXAxis, y: { ...commonYAxis, suggestedMax: 50 } },
+                animation: false
+            }
+        });
+
+        intensityChart = new Chart(intenCtx, {
+            type: 'line',
+            data: { /* ... data setup ... */
+                 labels: Array.from({ length: width }, (_, i) => i),
+                datasets: [{
+                    label: 'Intensidad Teórica', data: calculateTheoreticalIntensity(),
+                    borderColor: 'rgba(250, 204, 21, 1)', // Solid Yellow line
+                    backgroundColor: 'rgba(250, 204, 21, 0.2)', // Yellow fill
+                    borderWidth: 1.5, pointRadius: 0, tension: 0.1, fill: true
+                }]
+            },
+            options: { /* ... options setup ... */
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: commonXAxis, y: { ...commonYAxis, min:0, max: 1.05 } },
+                animation: { duration: 200, easing: 'linear' }
+            }
+        });
+    }
+
+    function calculateTheoreticalIntensity() {
+        let intensityData = new Array(width);
+        for (let i = 0; i < width; i++) {
+            intensityData[i] = calculateIntensityAt(i, mode);
+        }
+        const maxIntensity = Math.max(...intensityData, 1e-9);
+         if (maxIntensity > 0) {
+             return intensityData.map(val => val / maxIntensity);
+         } else {
+             return intensityData.map(() => 0);
+         }
+    }
+
+    function updateHistogramChart() {
+        if (!histogramChart) return;
+        histogramChart.data.datasets[0].data = impacts.slice();
+        const maxImpact = Math.max(...impacts, 1);
+        histogramChart.options.scales.y.suggestedMax = Math.max(50, Math.ceil(maxImpact * 1.1));
+        histogramChart.update('none');
+    }
+
+    function updateIntensityChart() {
+        if (!intensityChart) return;
+        intensityChart.data.datasets[0].data = calculateTheoreticalIntensity();
+        intensityChart.update();
+    }
+
+    // === UI EVENT HANDLERS ===
+    function setupEventListeners() {
+         // Check if all elements exist before adding listeners
+        if (!particlesSlider || !slitDistanceSlider || !slitWidthSlider || !lambdaSlider || !resetBtn || !toggleBtn) {
+            console.error("One or more simulation control elements are missing!");
+            return; // Stop if controls are missing
+        }
+
+        particlesSlider.addEventListener('input', function() {
+            nParticlesPerSec = parseInt(this.value, 10);
+            if(particlesVal) particlesVal.textContent = nParticlesPerSec;
+        });
+        slitDistanceSlider.addEventListener('input', function() {
+            slitDistance = parseInt(this.value, 10);
+             if(slitDistanceVal) slitDistanceVal.textContent = slitDistance;
+            updateIntensityChart();
+        });
+        slitWidthSlider.addEventListener('input', function() {
+            slitWidth = parseInt(this.value, 10);
+            slitWidth = Math.max(1, slitWidth);
+             if(slitWidthVal) slitWidthVal.textContent = slitWidth;
+            updateIntensityChart();
+        });
+         lambdaSlider.addEventListener('input', function() {
+            lambdaEffective = parseFloat(this.value);
+             if(lambdaVal) lambdaVal.textContent = lambdaEffective.toFixed(1);
+            updateIntensityChart();
+        });
+
+        resetBtn.addEventListener('click', resetSimulationState);
+
+        toggleBtn.addEventListener('click', function() {
+            mode = (mode === "quantum") ? "classic" : "quantum";
+            if(modeLabel) modeLabel.textContent = mode === "quantum" ? "Cuántico" : "Clásico";
+            // Toggle button style based on mode
+            this.classList.toggle("button-secondary"); // Default style
+            this.classList.toggle("button-toggled"); // Style for Quantum mode
+            resetSimulationState();
+            updateIntensityChart();
+        });
+    }
+
+    function resetSimulationState() {
+        impacts = new Array(width).fill(0);
+        totalShots = 0;
+        if (simCtx) { // Only draw if context exists
+            simCtx.fillStyle = '#000';
+            simCtx.fillRect(0, 0, width, height);
+            drawSlits();
+        }
+        // Reset charts only if they exist
+        if (histogramChart) updateHistogramChart();
+        // Intensity chart updated by caller if needed (e.g. toggleMode)
+    }
+
+     function updateUIValues() {
+         // Check if elements exist before updating
+         if(particlesVal) particlesVal.textContent = nParticlesPerSec;
+         if(slitDistanceVal) slitDistanceVal.textContent = slitDistance;
+         if(slitWidthVal) slitWidthVal.textContent = slitWidth;
+         if(lambdaVal) lambdaVal.textContent = lambdaEffective.toFixed(1);
+         // Set initial toggle button class
+         if (toggleBtn) {
+             toggleBtn.classList.remove("button-toggled");
+             toggleBtn.classList.add("button-secondary");
+             if (mode === "quantum") {
+                 toggleBtn.classList.add("button-toggled");
+                 toggleBtn.classList.remove("button-secondary");
+             }
+         }
+     }
+
+    // === INITIALIZATION ON PAGE LOAD ===
+    window.onload = () => {
+        // Ensure canvas exists before proceeding
+        if (!simCanvas || !simCtx) {
+            console.error("Simulation canvas not found or context could not be created. Simulation cannot start.");
+            // Optionally display a message to the user in the simulation area
+            const simSection = document.getElementById('simCanvas')?.parentElement?.parentElement?.parentElement;
+            if (simSection) {
+                simSection.innerHTML = '<p class="text-red-400 text-center p-10">Error: No se pudo cargar la simulación.</p>';
+            }
+            return; // Stop execution if canvas is missing
+        }
+
+        updateUIValues();
+        setupEventListeners();
+        initCharts();
+        resetSimulationState();
+        lastTime = performance.now();
+        isRunning = true;
+        // Check if already running to prevent multiple loops if onload fires again
+        if (!animationFrameId) {
+             simulationLoop(lastTime);
+        }
+    };
+
+</script>
+
+</body>
+</html>

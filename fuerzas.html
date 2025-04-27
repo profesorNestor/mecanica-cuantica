@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fuerzas Fundamentales – Visual Mejorada</title>
+
+  <!-- TailwindCSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <!-- Icons & Fonts -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+          onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+
+  <style>
+    :root{--accent:#facc15}
+    body{margin:0;font-family:'Roboto',sans-serif;background:linear-gradient(135deg,#1e3a8a,#312e81);color:#e2e8f0;overflow-x:hidden}
+    h1,h2,h3{font-family:'Montserrat',sans-serif;font-weight:700;color:var(--accent)}
+    .btn-home{position:fixed;top:20px;left:20px;background:rgba(255,255,255,.1);padding:10px 20px;border-radius:12px;font-weight:bold;color:var(--accent);text-decoration:none;z-index:50}
+    .box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:.75rem;padding:1.5rem;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+
+    /* details */
+    details{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:.5rem;margin-bottom:1rem;transition:.25s}
+    details[open]{background:rgba(255,255,255,.09)}
+    summary{padding:1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:var(--accent);font-size:1.05rem;list-style:none}
+    summary:hover{background:rgba(255,255,255,.12)}
+    summary::marker,summary::-webkit-details-marker{display:none}
+    .ico{transition:transform .3s}
+    details[open] .ico{transform:rotate(90deg)}
+
+    /* tablas */
+    table{width:100%;border-collapse:collapse;font-size:.9rem;background:rgba(0,0,0,.2);margin-top:.75rem;font-variant-numeric:tabular-nums;line-height:1.35}
+    th,td{padding:8px 10px;border:1px solid rgba(255,255,255,.23);text-align:center;vertical-align:middle}
+    th{background:rgba(250,204,21,.18);color:var(--accent);font-weight:600}
+    tr:nth-child(even){background:rgba(255,255,255,.04)}
+    /* notación científica KaTeX tamaño */
+    .katex{font-size:1em}
+  </style>
+</head>
+<body>
+<a href="index.html" class="btn-home">🏠 Inicio</a>
+
+<div class="container mx-auto px-4 py-10 pt-28">
+  <h1 class="text-center text-4xl md:text-5xl font-bold mb-10">Fuerzas Fundamentales</h1>
+
+  <!-- Intro -->
+  <div class="box prose lg:prose-lg max-w-none text-gray-300 mb-12">
+    <h2>¿Por qué solo <i>cuatro</i>?</h2>
+    <p>Toda interacción conocida se reduce a <b>Fuerte, Electromagnética, Débil</b> y <b>Gravitacional</b>. Cada una opera con una intensidad, alcance y <em>bosón portador</em> característicos.</p>
+  </div>
+
+  <!-- Detalles -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-16">
+
+    <!-- Fuerte -->
+    <details>
+      <summary><span class="flex items-center"><i class="fas fa-atom text-red-400 mr-3"></i>Fuerza Nuclear Fuerte</span><i class="fas fa-chevron-right ico"></i></summary>
+      <div class="px-5 pb-5">
+        <p class="text-sm">Une quarks en hadrones y nucleones en núcleos.</p>
+        <table>
+          <tbody>
+            <tr><td>Afecta</td><td>Quarks &amp; Gluones</td></tr>
+            <tr><td>Bosón</td><td>8 Gluones (g)</td></tr>
+            <tr><td>Alcance</td><td>$$\sim10^{-15}\,\text{m}$$</td></tr>
+            <tr><td>Fuerza relativa</td><td>$$1$$</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Electromagnética -->
+    <details>
+      <summary><span class="flex items-center"><i class="fas fa-magnet text-blue-400 mr-3"></i>Fuerza Electromagnética</span><i class="fas fa-chevron-right ico"></i></summary>
+      <div class="px-5 pb-5">
+        <p class="text-sm">Responsable de la luz, la química y la tecnología.</p>
+        <table>
+          <tbody>
+            <tr><td>Afecta</td><td>Partículas con carga $q$</td></tr>
+            <tr><td>Bosón</td><td>Fotón (γ)</td></tr>
+            <tr><td>Alcance</td><td>Infinito • $$F\propto1/r^{2}$$</td></tr>
+            <tr><td>Fuerza relativa</td><td>$$\tfrac{1}{137}$$</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Débil -->
+    <details>
+      <summary><span class="flex items-center"><i class="fas fa-hourglass-half text-green-400 mr-3"></i>Fuerza Nuclear Débil</span><i class="fas fa-chevron-right ico"></i></summary>
+      <div class="px-5 pb-5">
+        <p class="text-sm">Cambia «sabores» de quarks; esencial en la fusión solar.</p>
+        <table>
+          <tbody>
+            <tr><td>Bosones</td><td>W<sup>±</sup>, Z<sup>0</sup></td></tr>
+            <tr><td>Alcance</td><td>$$\sim10^{-18}\,\text{m}$$</td></tr>
+            <tr><td>Fuerza relativa</td><td>$$10^{-6}$$</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Gravitacional -->
+    <details>
+      <summary><span class="flex items-center"><i class="fas fa-globe text-gray-300 mr-3"></i>Fuerza Gravitacional</span><i class="fas fa-chevron-right ico"></i></summary>
+      <div class="px-5 pb-5">
+        <p class="text-sm">Débil pero dominante a gran escala; siempre atractiva.</p>
+        <table>
+          <tbody>
+            <tr><td>Afecta</td><td>Masa‑Energía</td></tr>
+            <tr><td>Bosón</td><td>Gravitón (hipotético)</td></tr>
+            <tr><td>Alcance</td><td>Infinito • $$F\propto1/r^{2}$$</td></tr>
+            <tr><td>Fuerza relativa</td><td>$$10^{-38}$$</td></tr>
+          </tbody>
+        </table>
+        <p class="text-xs text-red-300 mt-2">La gravedad aún no encaja en el <i>Modelo Estándar</i>.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- Tabla comparativa -->
+  <div class="box bg-opacity-10 bg-yellow-500 border-l-4 border-yellow-400">
+    <h2 class="text-center mb-4">Comparativa Rápida</h2>
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr><th>Fuerza</th><th>Relativa</th><th>Bosón</th><th>Alcance</th><th>Actúa sobre</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="font-semibold text-red-300">Fuerte</td><td>1</td><td>g</td><td>$$10^{-15}\,\text{m}$$</td><td>Color</td></tr>
+          <tr><td class="font-semibold text-blue-300">EM</td><td>$$\tfrac{1}{137}$$</td><td>γ</td><td>∞</td><td>Carga</td></tr>
+          <tr><td class="font-semibold text-green-300">Débil</td><td>$$10^{-6}$$</td><td>W,Z</td><td>$$10^{-18}\,\text{m}$$</td><td>Sabor</td></tr>
+          <tr><td class="font-semibold text-gray-400">Grav.</td><td>$$10^{-38}$$</td><td>?</td><td>∞</td><td>Masa‑E</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer class="text-center text-xs text-gray-400 pb-6">©2025 • Fuerzas fundamentales – vista mejorada</footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+// scripts.js
+
+// Cuando el documento esté completamente cargado
+window.addEventListener('DOMContentLoaded', () => {
+    // Animación suave al hacer clic en enlaces de ancla
+    const enlaces = document.querySelectorAll('a[href^="#"]');
+
+    enlaces.forEach(enlace => {
+        enlace.addEventListener('click', function(e) {
+            e.preventDefault();
+            const destino = document.querySelector(this.getAttribute('href'));
+            if (destino) {
+                destino.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Efecto de "hover" dinámico para las tarjetas
+    const tarjetas = document.querySelectorAll('.card');
+
+    tarjetas.forEach(tarjeta => {
+        tarjeta.addEventListener('mouseover', () => {
+            tarjeta.classList.add('hovered');
+        });
+
+        tarjeta.addEventListener('mouseout', () => {
+            tarjeta.classList.remove('hovered');
+        });
+    });
+
+    // Efecto parpadeo suave en la imagen de inspiración cuántica
+    const imagenInspiracion = document.querySelector('.inspiracion-img');
+
+    if (imagenInspiracion) {
+        setInterval(() => {
+            imagenInspiracion.classList.toggle('parpadeo');
+        }, 4000);
+    }
+});

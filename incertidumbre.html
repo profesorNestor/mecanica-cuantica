@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Principio de Incertidumbre – Visualización Interactiva</title>
+
+  <!-- TailwindCSS v2 (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- KaTeX + auto-render -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+          onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+
+  <style>
+    :root {
+      /* Colores brand */
+      --wave: #38bdf8;  /* sky-400 */
+      --axis: #64748b;  /* slate-500 */
+      --accent: #facc15; /* yellow-400 */
+    }
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(145deg, #1a2a6c, #2e1a47);
+      color: #e0e7ff;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    /* Botón Inicio (consistencia con las demás páginas) */
+    .home-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--accent);
+      transition: background 0.3s, transform 0.3s;
+      z-index: 50;
+    }
+    .home-button:hover {
+      background: rgba(250, 204, 21, 0.2);
+      transform: scale(1.05);
+    }
+
+    /* Caja de contenido translúcida */
+    .content-box {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      margin-bottom: 2rem;
+    }
+
+    /* Fórmula destacada */
+    .formula-box {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+      font-size: 1.35rem;
+      line-height: 1.4;
+      max-width: 700px;
+      margin: 1.5rem auto;
+      text-align: center;
+    }
+
+    /* Canvas */
+    #uncertaintyCanvas {
+      width: 100%;
+      max-width: 720px;
+      height: 340px;
+      display: block;
+      margin: 1.5rem auto;
+      border-radius: 10px;
+      background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%);
+      border: 2px solid rgba(250, 204, 21, 0.25);
+    }
+
+    /* Controles */
+    .viz-controls button {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 10px 22px;
+      margin: 8px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.25s;
+      position: relative;
+    }
+    .viz-controls button:hover {
+      background: rgba(250, 204, 21, 0.15);
+      transform: translateY(-2px);
+    }
+    .viz-controls button.active {
+      background: var(--accent);
+      color: #1e3a8a;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="home-button">🏠 Inicio</a>
+
+<div class="container mx-auto px-4 py-10 pt-28">
+  <!-- Título principal -->
+  <div class="text-center mb-12">
+    <h1 class="text-5xl font-bold mb-4">Principio de Incertidumbre</h1>
+    <p class="text-lg text-gray-300">Visualiza cómo posición y momento no pueden conocerse con precisión infinita.</p>
+  </div>
+
+  <!-- Teoría -->
+  <div class="content-box prose lg:prose-lg max-w-none text-gray-300">
+    <h2>¿Qué es el Principio de Incertidumbre?</h2>
+    <p>En la mecánica cuántica, el <strong>Principio de Incertidumbre de Heisenberg</strong> establece que existen pares de propiedades físicas, como la <strong>posición</strong> y el <strong>momento</strong>, que no pueden conocerse ambas con precisión infinita al mismo tiempo.</p>
+    <p>Cuanto mejor conocemos una de estas propiedades, mayor es la incertidumbre en la otra. Este límite es una <strong>propiedad fundamental de la naturaleza</strong>.</p>
+    <div class="formula-box">$$ \Delta x \, \Delta p \geq \dfrac{\hbar}{2} $$</div>
+    <ul>
+      <li><strong>Δx</strong>: Incertidumbre en la posición.</li>
+      <li><strong>Δp</strong>: Incertidumbre en el momento.</li>
+      <li><strong>ħ</strong>: Constante reducida de Planck.</li>
+    </ul>
+    <p>Este principio impide determinar trayectorias exactas de partículas a nivel cuántico.</p>
+  </div>
+
+  <!-- Visualización -->
+  <div class="content-box">
+    <h2 class="mb-4">Visualización Interactiva</h2>
+    <canvas id="uncertaintyCanvas"></canvas>
+    <div class="viz-controls flex flex-wrap justify-center">
+      <button id="narrowBtn" title="Paquete de ondas estrecho – posición definida">📍 Precisar Posición</button>
+      <button id="wideBtn"   title="Paquete de ondas ancho – momento definido">💨 Precisar Momento</button>
+      <button id="playPauseBtn" title="Iniciar / Pausar animación">▶️ / ⏸️ Play / Stop</button>
+      <button id="resetBtn" title="Restablecer estado inicial">🔄 Reset</button>
+    </div>
+  </div>
+</div>
+
+<footer class="pb-6 text-center text-xs text-gray-400">
+  © 2025 • Visualización educativa del Principio de Incertidumbre.
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    /* ------------------------- Configuración Canvas ------------------------- */
+    const canvas       = document.getElementById('uncertaintyCanvas');
+    const ctx          = canvas.getContext('2d');
+    const narrowBtn    = document.getElementById('narrowBtn');
+    const wideBtn      = document.getElementById('wideBtn');
+    const resetBtn     = document.getElementById('resetBtn');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+
+    const AXIS_COLOR  = getComputedStyle(document.documentElement).getPropertyValue('--axis').trim();
+    const WAVE_COLOR  = getComputedStyle(document.documentElement).getPropertyValue('--wave').trim();
+
+    let positionSpread   = 30; // ancho del paquete (px)
+    let wavelengthSpread = 5;  // factor de longitud de onda
+    let animate          = false;
+    let time             = 0;
+    let rafId            = null;
+
+    function drawWavePacket(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const centerX = canvas.width  / 2;
+      const centerY = canvas.height / 2;
+
+      /* Eje horizontal */
+      ctx.beginPath();
+      ctx.strokeStyle = AXIS_COLOR;
+      ctx.lineWidth = 1;
+      ctx.moveTo(0, centerY);
+      ctx.lineTo(canvas.width, centerY);
+      ctx.stroke();
+
+      /* Paquete de ondas */
+      ctx.beginPath();
+      ctx.strokeStyle = WAVE_COLOR;
+      ctx.lineWidth   = 2;
+
+      const k  = (2 * Math.PI) / wavelengthSpread;
+      const σ2 = positionSpread * positionSpread;
+
+      for (let x = -centerX; x <= centerX; x++) {
+        const gaussian = Math.exp(-x * x / (2 * σ2));
+        const y = gaussian * Math.sin(k * x - 0.02 * t);
+        const canvasX = centerX + x;
+        const canvasY = centerY - y * 120; // escala vertical
+        if (x === -centerX) ctx.moveTo(canvasX, canvasY);
+        else ctx.lineTo(canvasX, canvasY);
+      }
+      ctx.stroke();
+    }
+
+    function loop() {
+      drawWavePacket(time);
+      time += 1;
+      if (animate) rafId = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (!animate) {
+        animate = true;
+        rafId = requestAnimationFrame(loop);
+      }
+    }
+    function stop() {
+      animate = false;
+      cancelAnimationFrame(rafId);
+    }
+    function reset() {
+      stop();
+      time = 0;
+      positionSpread = 30;
+      wavelengthSpread = 5;
+      narrowBtn.classList.remove('active');
+      wideBtn.classList.remove('active');
+      drawWavePacket(time);
+    }
+
+    narrowBtn.addEventListener('click', () => {
+      positionSpread = 15;
+      wavelengthSpread = 12;
+      narrowBtn.classList.add('active');
+      wideBtn.classList.remove('active');
+      drawWavePacket(time);
+    });
+
+    wideBtn.addEventListener('click', () => {
+      positionSpread = 60;
+      wavelengthSpread = 3;
+      wideBtn.classList.add('active');
+      narrowBtn.classList.remove('active');
+      drawWavePacket(time);
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      animate ? stop() : start();
+    });
+
+    resetBtn.addEventListener('click', reset);
+
+    // Primer render
+    drawWavePacket(time);
+  });
+</script>
+</body>
+</html>
