@@ -64,6 +64,9 @@
       font-weight:700;margin:.4rem;border:3px solid rgba(255,255,255,.45);box-shadow:0 2px 6px rgba(0,0,0,.3);
       transition:transform .25s,box-shadow .25s}
     .qbtn:hover{transform:scale(1.08);box-shadow:0 4px 10px rgba(0,0,0,.4)}
+    .qbtn[aria-label*="Rojo" ]{border-style:dotted}
+    .qbtn[aria-label*="Verde"]{border-style:dashed}
+    .qbtn[aria-label*="Azul" ]{border-style:solid}
     .slot{cursor:default;background:rgba(255,255,255,.1);border-style:dashed;font-size:1.5rem;color:var(--text-primary)}
     .slot.filled{border-style:solid;color:#fff}
     .slot.r{background:var(--r)} .slot.g{background:var(--g)} .slot.b{background:var(--b)}
@@ -74,14 +77,15 @@
       font-weight:700;margin:1rem auto;border:3px solid var(--border);text-align:center;font-size:.9rem}
     .particle.neutral{background:#fff;border-color:#fff;box-shadow:0 0 18px rgba(255,255,255,.7);color:var(--text-dark)}
     .particle.not-neutral{background:rgba(255,255,255,.08);color:var(--text-primary)}
+    .particle.invalid{background:#991b1b;border-color:#991b1b;color:#fff}
 
     /* ====== Botones sabor (carga) ====== */
     .flav-btn{margin:.3rem;padding:.5rem .8rem;border-radius:.5rem;font-weight:600;font-size:.85rem;color:var(--text-primary);
       background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);
       transition:background .2s,transform .2s,border-color .2s}
     .flav-btn:hover{background:rgba(250,204,21,.25);transform:scale(1.05);border-color:var(--accent)}
-    .quark-btn{border-left:4px solid var(--g)}
-    .anti-quark-btn{border-left:4px solid var(--ar)}
+    .quark-btn{border-left:4px dotted var(--g)}
+    .anti-quark-btn{border-left:4px dashed var(--ar)}
 
     /* Ranuras de carga */
     .slot-chg{width:50px;height:50px;margin:.2rem;display:flex;align-items:center;justify-content:center;
@@ -94,7 +98,6 @@
     /* Otros */
     .charge-label{color:var(--accent);font-size:1.25rem;font-weight:700;min-width:3em;display:inline-block;text-align:center}
     .particle-name{color:#67e8f9;font-weight:700;margin-top:.5rem;min-height:1.5em}
-    .particle-symbol{color:#fde047;font-size:.9em}
 
     .reset-button{margin-top:1rem;padding:.5rem 1rem;background:var(--reset-btn-bg);color:#fff;border:none;border-radius:.5rem;
       font-size:.875rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;
@@ -111,29 +114,33 @@
     <h1 class="text-center text-4xl md:text-5xl mb-16">Laboratorio de Espín, Color y Carga Cuántica</h1>
 
     <!-- ========== ESPÍN ========== -->
-    <section class="box">
-      <h2 class="section-title"><i class="fas fa-sync-alt mr-2"></i>Propiedad de Espín</h2>
+    <section class="box" aria-labelledby="tit-spin">
+      <h2 id="tit-spin" class="section-title"><i class="fas fa-sync-alt mr-2" aria-hidden="true"></i>Propiedad de Espín</h2>
       <div class="grid md:grid-cols-2 gap-8 items-center">
         <div>
           <h3 class="text-xl font-semibold mb-3 text-yellow-300">¿Qué es el espín?</h3>
-          <p class="mb-3 text-sm">El <strong class="text-yellow-300">espín</strong> es un momento angular intrínseco. Dos orientaciones:</p>
+          <p class="mb-3 text-sm">El <strong class="text-yellow-300">espín</strong> es un momento angular intrínseco predecible solo cuantizado. Dos orientaciones:</p>
           <ul class="list-disc list-inside text-sm mb-4 pl-4">
-            <li>\(m_s = +\frac{1}{2}\) : espín “arriba” (\(\uparrow\))</li>
-            <li>\(m_s = -\frac{1}{2}\) : espín “abajo” (\(\downarrow\))</li>
+            <li>\(m_s = +\tfrac{1}{2}\) : espín “arriba” (\(\uparrow\))</li>
+            <li>\(m_s = -\tfrac{1}{2}\) : espín “abajo” (\(\downarrow\))</li>
           </ul>
-          <p class="help-text"><i class="fas fa-hand-pointer mr-1"></i>Haz clic en la tarjeta para girar el espín.</p>
+          <details class="text-sm text-gray-300">
+            <summary class="cursor-pointer text-yellow-300 font-semibold">Más sobre el espín</summary>
+            <p class="mt-2">Surge de la ecuación de Dirac y no corresponde a una rotación clásica. Experimentos tipo Stern–Gerlach demuestran su cuantización.</p>
+          </details>
+          <p class="help-text mt-3"><i class="fas fa-hand-pointer mr-1" aria-hidden="true"></i>Haz clic en la tarjeta para girar el espín.</p>
         </div>
         <div class="flex justify-center">
-          <div id="spinCard" class="spin-card">
+          <div id="spinCard" class="spin-card" aria-label="Tarjeta de espín; pulsa para girar">
             <div class="spin-inner">
               <div class="face up">
-                <i class="fas fa-arrow-up text-5xl mb-3"></i>
-                <div class="text-lg font-bold">\(+\frac{1}{2}\)</div>
+                <i class="fas fa-arrow-up text-5xl mb-3" aria-hidden="true"></i>
+                <div class="text-lg font-bold">(+1/2)</div>
                 <div class="text-sm mt-1">Arriba</div>
               </div>
               <div class="face down">
-                <i class="fas fa-arrow-down text-5xl mb-3"></i>
-                <div class="text-lg font-bold">\(-\frac{1}{2}\)</div>
+                <i class="fas fa-arrow-down text-5xl mb-3" aria-hidden="true"></i>
+                <div class="text-lg font-bold">(-1/2)</div>
                 <div class="text-sm mt-1">Abajo</div>
               </div>
             </div>
@@ -143,87 +150,87 @@
     </section>
 
     <!-- ========== COLOR ========== -->
-    <section class="box">
-      <h2 class="section-title"><i class="fas fa-palette mr-2"></i>Propiedad de Carga de Color</h2>
-      <p class="help-text mb-8">Un hadrón estable siempre es “blanco” (neutral en color).</p>
+    <section class="box" aria-labelledby="tit-color">
+      <h2 id="tit-color" class="section-title"><i class="fas fa-palette mr-2" aria-hidden="true"></i>Propiedad de Carga de Color</h2>
+      <p class="help-text mb-8">Un hadrón estable siempre es “blanco” (singlete de color).</p>
       <div class="grid md:grid-cols-2 gap-10">
 
         <!-- Barión color -->
-        <div class="simulation-box text-center">
-          <h3 class="simulation-title"><i class="fas fa-cubes"></i>Barión (3 quarks)</h3>
+        <div class="simulation-box text-center" aria-labelledby="tit-barion-color">
+          <h3 id="tit-barion-color" class="simulation-title"><i class="fas fa-cubes" aria-hidden="true"></i>Barión (3 quarks)</h3>
           <p class="help-text mb-4">Selecciona R, G y B en cualquier orden.</p>
-          <div id="barButtons" class="flex justify-center flex-wrap mb-4"></div>
-          <div class="flex justify-center items-center text-2xl font-bold gap-2 my-4">
-            <span id="bSlot0" class="slot">?</span>+
-            <span id="bSlot1" class="slot">?</span>+
-            <span id="bSlot2" class="slot">?</span>
+          <div id="barButtons" class="flex justify-center flex-wrap mb-4" aria-label="Botones de color para barión"></div>
+          <div class="flex justify-center items-center text-2xl font-bold gap-2 my-4" aria-live="polite">
+            <span id="bSlot0" class="slot" aria-label="Ranura color 1">?</span>+
+            <span id="bSlot1" class="slot" aria-label="Ranura color 2">?</span>+
+            <span id="bSlot2" class="slot" aria-label="Ranura color 3">?</span>
             =
-            <div id="barStatus" class="particle not-neutral" aria-live="polite"><span id="barLabel">Vacío</span></div>
+            <div id="barStatus" class="particle not-neutral" aria-label="Estado de barión"><span id="barLabel">Vacío</span></div>
           </div>
-          <p id="barMsg" class="h-6 text-sm text-gray-300 font-medium"></p>
-          <button id="barReset" class="reset-button"><i class="fas fa-undo"></i>Reiniciar Barión</button>
+          <p id="barMsg" class="h-6 text-sm font-medium"></p>
+          <button id="barReset" class="reset-button" aria-label="Reiniciar barión"><i class="fas fa-undo" aria-hidden="true"></i>Reiniciar Barión</button>
         </div>
 
         <!-- Mesón color -->
-        <div class="simulation-box text-center">
-          <h3 class="simulation-title"><i class="fas fa-atom"></i>Mesón (quark + antiquark)</h3>
+        <div class="simulation-box text-center" aria-labelledby="tit-meson-color">
+          <h3 id="tit-meson-color" class="simulation-title"><i class="fas fa-atom" aria-hidden="true"></i>Mesón (quark + antiquark)</h3>
           <p class="help-text mb-2">Primero un quark, luego un antiquark.</p>
           <p class="text-xs font-semibold mb-1">Quarks:</p>
-          <div id="mesButtonsQ" class="flex justify-center flex-wrap mb-3"></div>
+          <div id="mesButtonsQ" class="flex justify-center flex-wrap mb-3" aria-label="Botones de color quark"></div>
           <p class="text-xs font-semibold mb-1">Antiquarks:</p>
-          <div id="mesButtonsAQ" class="flex justify-center flex-wrap mb-4"></div>
-          <div class="flex justify-center items-center text-2xl font-bold gap-2 my-4">
-            <span id="mSlot0" class="slot">?</span>+
-            <span id="mSlot1" class="slot">?</span>
+          <div id="mesButtonsAQ" class="flex justify-center flex-wrap mb-4" aria-label="Botones de color antiquark"></div>
+          <div class="flex justify-center items-center text-2xl font-bold gap-2 my-4" aria-live="polite">
+            <span id="mSlot0" class="slot" aria-label="Ranura quark">?</span>+
+            <span id="mSlot1" class="slot" aria-label="Ranura antiquark">?</span>
             =
-            <div id="mesStatus" class="particle not-neutral" aria-live="polite"><span id="mesLabel">Vacío</span></div>
+            <div id="mesStatus" class="particle not-neutral" aria-label="Estado de mesón"><span id="mesLabel">Vacío</span></div>
           </div>
-          <p id="mesMsg" class="h-6 text-sm text-gray-300 font-medium"></p>
-          <button id="mesReset" class="reset-button"><i class="fas fa-undo"></i>Reiniciar Mesón</button>
+          <p id="mesMsg" class="h-6 text-sm font-medium"></p>
+          <button id="mesReset" class="reset-button" aria-label="Reiniciar mesón"><i class="fas fa-undo" aria-hidden="true"></i>Reiniciar Mesón</button>
         </div>
       </div>
     </section>
 
     <!-- ========== CARGA ELÉCTRICA ========== -->
-    <section class="box">
-      <h2 class="section-title"><i class="fas fa-bolt mr-2"></i>Propiedad de Carga Eléctrica</h2>
+    <section class="box" aria-labelledby="tit-carga">
+      <h2 id="tit-carga" class="section-title"><i class="fas fa-bolt mr-2" aria-hidden="true"></i>Propiedad de Carga Eléctrica</h2>
       <p class="help-text mb-8">
-        Quarks poseen cargas \(\pm\frac{2}{3}e\) o \(\mp\frac{1}{3}e\). Combínalos y observa el resultado.
+        Quarks poseen cargas \(\pm\tfrac{2}{3}e\) o \(\mp\tfrac{1}{3}e\). Combínalos y observa el resultado.
       </p>
       <div class="grid md:grid-cols-2 gap-10">
 
         <!-- Barión carga -->
-        <div class="simulation-box text-center">
-          <h3 class="simulation-title"><i class="fas fa-cubes"></i>Barión (3 quarks)</h3>
+        <div class="simulation-box text-center" aria-labelledby="tit-barion-carga">
+          <h3 id="tit-barion-carga" class="simulation-title"><i class="fas fa-cubes" aria-hidden="true"></i>Barión (3 quarks)</h3>
           <p class="help-text mb-4">Haz clic en 3 sabores de quark:</p>
-          <div id="chgButtonsBar" class="flex justify-center flex-wrap mb-4"></div>
-          <div class="flex justify-center items-center mb-2 text-xl font-bold gap-1">
-            <div id="slotCh0" class="slot-chg">?</div>+
-            <div id="slotCh1" class="slot-chg">?</div>+
-            <div id="slotCh2" class="slot-chg">?</div>
+          <div id="chgButtonsBar" class="flex justify-center flex-wrap mb-4" aria-label="Botones sabor quark barión"></div>
+          <div class="flex justify-center items-center mb-2 text-xl font-bold gap-1" aria-live="polite">
+            <div id="slotCh0" class="slot-chg" aria-label="Ranura quark 1">?</div>+
+            <div id="slotCh1" class="slot-chg" aria-label="Ranura quark 2">?</div>+
+            <div id="slotCh2" class="slot-chg" aria-label="Ranura quark 3">?</div>
             =
-            <span id="resultBar" class="charge-label" aria-live="polite">0</span>
+            <span id="resultBar" class="charge-label">0</span>
           </div>
           <div id="nameBar" class="particle-name" aria-live="polite"><span class="text-gray-400">Barión desconocido</span></div>
-          <button id="resetChBar" class="reset-button"><i class="fas fa-undo"></i>Reiniciar Barión</button>
+          <button id="resetChBar" class="reset-button"><i class="fas fa-undo" aria-hidden="true"></i>Reiniciar Barión</button>
         </div>
 
         <!-- Mesón carga -->
-        <div class="simulation-box text-center">
-          <h3 class="simulation-title"><i class="fas fa-atom"></i>Mesón (quark + antiquark)</h3>
+        <div class="simulation-box text-center" aria-labelledby="tit-meson-carga">
+          <h3 id="tit-meson-carga" class="simulation-title"><i class="fas fa-atom" aria-hidden="true"></i>Mesón (quark + antiquark)</h3>
           <p class="help-text mb-4">Elige 1 quark y 1 antiquark:</p>
           <p class="text-xs font-semibold mb-1">Quarks:</p>
-          <div id="chgButtonsMesQ" class="flex justify-center flex-wrap mb-3"></div>
+          <div id="chgButtonsMesQ" class="flex justify-center flex-wrap mb-3" aria-label="Botones sabor quark mesón"></div>
           <p class="text-xs font-semibold mb-1">Antiquarks:</p>
-          <div id="chgButtonsMesAQ" class="flex justify-center flex-wrap mb-4"></div>
-          <div class="flex justify-center items-center mb-2 text-xl font-bold gap-1">
-            <div id="slotChQ" class="slot-chg">?</div>+
-            <div id="slotChAQ" class="slot-chg">?</div>
+          <div id="chgButtonsMesAQ" class="flex justify-center flex-wrap mb-4" aria-label="Botones sabor antiquark mesón"></div>
+          <div class="flex justify-center items-center mb-2 text-xl font-bold gap-1" aria-live="polite">
+            <div id="slotChQ" class="slot-chg" aria-label="Ranura quark">?</div>+
+            <div id="slotChAQ" class="slot-chg" aria-label="Ranura antiquark">?</div>
             =
-            <span id="resultMes" class="charge-label" aria-live="polite">0</span>
+            <span id="resultMes" class="charge-label">0</span>
           </div>
           <div id="nameMes" class="particle-name" aria-live="polite"><span class="text-gray-400">Mesón desconocido</span></div>
-          <button id="resetChMes" class="reset-button"><i class="fas fa-undo"></i>Reiniciar Mesón</button>
+          <button id="resetChMes" class="reset-button"><i class="fas fa-undo" aria-hidden="true"></i>Reiniciar Mesón</button>
         </div>
       </div>
     </section>
@@ -246,13 +253,14 @@
 
     /* ====== Color data ====== */
     const COLORS={
-      R:{cls:'r',tex:'R',anti:'AR'}, G:{cls:'g',tex:'G',anti:'AG'}, B:{cls:'b',tex:'B',anti:'AB'},
-      AR:{cls:'ar',tex:'\\bar{R}',anti:'R'}, AG:{cls:'ag',tex:'\\bar{G}',anti:'G'}, AB:{cls:'ab',tex:'\\bar{B}',anti:'B'}
+      R:{cls:'r',tex:'R',anti:'AR',label:'Rojo'}, G:{cls:'g',tex:'G',anti:'AG',label:'Verde'}, B:{cls:'b',tex:'B',anti:'AB',label:'Azul'},
+      AR:{cls:'ar',tex:'\\bar{R}',anti:'R',label:'Antirrojo'}, AG:{cls:'ag',tex:'\\bar{G}',anti:'G',label:'Antiverde'}, AB:{cls:'ab',tex:'\\bar{B}',anti:'B',label:'Antiazul'}
     };
     function makeColorBtn(code){
       const btn=document.createElement('button');
       btn.className=`qbtn ${COLORS[code].cls}`; btn.dataset.code=code;
-      btn.dataset.katex = COLORS[code].tex;      /* guardar expresión */
+      btn.setAttribute('aria-label',`Quark color ${COLORS[code].label}`);
+      btn.dataset.katex = COLORS[code].tex;
       kRender(COLORS[code].tex, btn);
       return btn;
     }
@@ -269,12 +277,12 @@
     function updBarCol(){
       bSlots.forEach((s,i)=>{
         const c=barCol[i]; s.className='slot';
-        if(c){s.classList.add('filled',COLORS[c].cls); kRender(COLORS[c].tex,s);}
-        else s.textContent='?';
+        if(c){s.classList.add('filled',COLORS[c].cls); kRender(COLORS[c].tex,s);} else s.textContent='?';
       });
       const full=barCol.length===3, neut=full && ['R','G','B'].every(c=>barCol.includes(c));
-      if(neut){ bStatus.className='particle neutral'; bLabel.textContent='¡Blanco!'; bMsg.textContent='Barión neutro en color'; bMsg.style.color='var(--accent)'; }
-      else if(barCol.length){ bStatus.className='particle not-neutral'; bLabel.textContent='Colorido'; bMsg.textContent=full?'Combinación incorrecta':'Faltan '+(3-barCol.length)+' quark(s)…'; bMsg.style.color='var(--text-primary)'; }
+      if(neut){ bStatus.className='particle neutral'; bLabel.textContent='Singlete'; bMsg.textContent='Barión neutro en color'; bMsg.style.color='var(--accent)'; }
+      else if(full){ bStatus.className='particle invalid'; bLabel.textContent='Prohibido'; bMsg.textContent='Estado con carga de color (no físico)'; bMsg.style.color='#fff'; }
+      else if(barCol.length){ bStatus.className='particle not-neutral'; bLabel.textContent='Incompleto'; bMsg.textContent='Faltan '+(3-barCol.length)+' quark(s)…'; bMsg.style.color='var(--text-primary)'; }
       else{ bStatus.className='particle not-neutral'; bLabel.textContent='Vacío'; bMsg.textContent='Selecciona 3 quarks'; bMsg.style.color='var(--text-secondary)'; }
     }
 
@@ -290,100 +298,82 @@
     function updMesCol(){
       [mQ,mAQ].forEach((c,i)=>{const s=mSlots[i]; s.className='slot'; if(c){s.classList.add('filled',COLORS[c].cls); kRender(COLORS[c].tex,s);} else s.textContent='?';});
       const full=mQ&&mAQ, neut=full && COLORS[mQ].anti===mAQ;
-      if(neut){ mStatus.className='particle neutral'; mLabel.textContent='¡Blanco!'; mMsg.textContent='Mesón neutro en color'; mMsg.style.color='var(--accent)'; }
-      else if(full){ mStatus.className='particle not-neutral'; mLabel.textContent='Colorido'; mMsg.textContent='No es pareja color/anticolor'; mMsg.style.color='var(--text-primary)'; }
-      else if(mQ||mAQ){ mStatus.className='particle not-neutral'; mLabel.textContent='Colorido'; mMsg.textContent='Falta quark o antiquark'; mMsg.style.color='var(--text-primary)'; }
+      if(neut){ mStatus.className='particle neutral'; mLabel.textContent='Singlete'; mMsg.textContent='Mesón neutro en color'; mMsg.style.color='var(--accent)'; }
+      else if(full){ mStatus.className='particle invalid'; mLabel.textContent='Prohibido'; mMsg.textContent='No es pareja color/anticolor'; mMsg.style.color='#fff'; }
+      else if(mQ||mAQ){ mStatus.className='particle not-neutral'; mLabel.textContent='Incompleto'; mMsg.textContent='Falta quark o antiquark'; mMsg.style.color='var(--text-primary)'; }
       else{ mStatus.className='particle not-neutral'; mLabel.textContent='Vacío'; mMsg.textContent='Elige 1 quark y 1 antiquark'; mMsg.style.color='var(--text-secondary)'; }
     }
 
     /* ====== Carga eléctrica ====== */
-    const QK={u:{q:2,s:'u'}, d:{q:-1,s:'d'}, c:{q:2,s:'c'}, s:{q:-1,s:'s'}, t:{q:2,s:'t'}, b:{q:-1,s:'b'}}, den=3;
-    function frac(n){ if(n===0) return '0'; const s=n>0?'+':'-'; const a=Math.abs(n); if(a===den) return `${s}1e`; if(a%den===0) return `${s}${a/den}e`; return `${s}\\frac{${a}}{${den}}e`; }
+    const QK={u:{q:2,s:'u'}, d:{q:-1,s:'d'}, c:{q:2,s:'c'}, s:{q:-1,s:'s'}, b:{q:-1,s:'b'}}; // sin top
+    const den=3;
+    function frac(n){
+      if(n===0) return '0';
+      const s=n>0?'+':'-';
+      const a=Math.abs(n);
+      if(a===den) return `${s}1e`;
+      return `${s}\\tfrac{${a}}{${den}}e`;
+    }
     function makeFlavorBtn(k,anti=false){
       const d=QK[k], btn=document.createElement('button'); btn.dataset.flv=k; btn.dataset.anti=anti;
       btn.className=`flav-btn ${anti?'anti-quark-btn':'quark-btn'}`;
       const sym=anti?`\\bar{${d.s}}`:d.s, expr=`${sym}\\;(${frac(anti?-d.q:d.q)})`;
-      btn.dataset.katex=expr; kRender(expr,btn); return btn;
+      btn.dataset.katex=expr; kRender(expr,btn);
+      btn.setAttribute('aria-label',`${anti?'Antiquark':'Quark'} ${d.s}`);
+      return btn;
     }
 
-    /* Tablas de partículas */
-    /* ====== BARIONES ======  (3 quarks, clave ordenada) */
-const baryonNames = {
-  // nucleones
-  duu:{n:'Protón',     sym:'p'},
-  ddu:{n:'Neutrón',    sym:'n'},
+    /* Tablas de partículas — solo estados confirmados (PDG 2024) */
+    const baryonNames = {
+      duu:{n:'Protón',     sym:'p'},
+      ddu:{n:'Neutrón',    sym:'n'},
+      suu:{n:'Σ⁺',         sym:'\\Sigma^+'},
+      dsu:{n:'Λ⁰ / Σ⁰',    sym:'\\Lambda^0/\\Sigma^0'},
+      dds:{n:'Σ⁻',         sym:'\\Sigma^-'},
+      ssu:{n:'Ξ⁰',         sym:'\\Xi^0'},
+      dss:{n:'Ξ⁻',         sym:'\\Xi^-'},
+      sss:{n:'Ω⁻',         sym:'\\Omega^-'},
+      cdu:{n:'Λ_c⁺',       sym:'\\Lambda_c^+'},
+      cds:{n:'Ξ_c⁰',       sym:'\\Xi_c^0'},
+      csu:{n:'Ξ_c⁺',       sym:'\\Xi_c^+'},
+      css:{n:'Ω_c⁰',       sym:'\\Omega_c^0'},
+      bdu:{n:'Λ_b⁰',       sym:'\\Lambda_b^0'},
+      bds:{n:'Ξ_b⁻',       sym:'\\Xi_b^-'},
+      bsu:{n:'Ξ_b⁰',       sym:'\\Xi_b^0'},
+      bss:{n:'Ω_b⁻',       sym:'\\Omega_b^-'},
+    };
+    const mesonNames = {
+      'u_d':{n:'π⁺', sym:'\\pi^+'},   'd_u':{n:'π⁻', sym:'\\pi^-'},
+      'u_u':{n:'π⁰ / ρ⁰', sym:'\\pi^0/\\rho^0'},     'd_d':{n:'π⁰ / ρ⁰', sym:'\\pi^0/\\rho^0'},
+      's_s':{n:'η / ϕ',       sym:'\\eta/\\phi'},
+      'u_s':{n:'K⁺',  sym:'K^+'},       's_u':{n:'K⁻',  sym:'K^-'},
+      'd_s':{n:'K⁰',  sym:'K^0'},       's_d':{n:'\\bar{K}⁰', sym:'\\bar{K}^0'},
+      'c_u':{n:'D⁰',  sym:'D^0'},       'u_c':{n:'\\bar D⁰', sym:'\\bar{D}^0'},
+      'c_d':{n:'D⁺',  sym:'D^+'},       'd_c':{n:'D⁻',      sym:'D^-'},
+      'c_s':{n:'D_s⁺',sym:'D_s^+'},     's_c':{n:'D_s⁻',    sym:'D_s^-'},
+      'c_c':{n:'J/ψ', sym:'J/\\psi'},
+      'b_u':{n:'B⁺',  sym:'B^+'},       'u_b':{n:'B⁻',  sym:'B^-'},
+      'b_d':{n:'\\bar B⁰', sym:'\\bar{B}^0'}, 'd_b':{n:'B⁰',  sym:'B^0'},
+      'b_s':{n:'\\bar B_s⁰',sym:'\\bar{B}_s^0'}, 's_b':{n:'B_s⁰', sym:'B_s^0'},
+      'b_c':{n:'B_c⁺',sym:'B_c^+'},     'c_b':{n:'B_c⁻', sym:'B_c^-'},
+      'b_b':{n:'Υ',   sym:'\\Upsilon'}
+    };
 
-  // familia Σ
-  suu:{n:'Σ⁺',         sym:'\\Sigma^+'},
-  dsu:{n:'Λ⁰ / Σ⁰',    sym:'\\Lambda^0/\\Sigma^0'},
-  dds:{n:'Σ⁻',         sym:'\\Sigma^-'},
-  // familia Ξ
-  ssu:{n:'Ξ⁰',         sym:'\\Xi^0'},
-  dss:{n:'Ξ⁻',         sym:'\\Xi^-'},
-  // Ω clásico
-  sss:{n:'Ω⁻',         sym:'\\Omega^-'},
-
-  /* --------- CON QUARK c ---------- */
-  cdu:{n:'Λ_c⁺',       sym:'\\Lambda_c^+'},
-  cds:{n:'Ξ_c⁰',       sym:'\\Xi_c^0'},
-  csu:{n:'Ξ_c⁺',       sym:'\\Xi_c^+'},
-  ccu:{n:'Σ_{cc}^{++}',sym:'\\Sigma_{cc}^{++}'},
-  ccd:{n:'Ξ_{cc}^+',   sym:'\\Xi_{cc}^+'},
-  ccs:{n:'Ω_{cc}^+',   sym:'\\Omega_{cc}^+'},
-  css:{n:'Ω_c⁰',       sym:'\\Omega_c^0'},
-
-  /* --------- CON QUARK b ---------- */
-  bdu:{n:'Λ_b⁰',       sym:'\\Lambda_b^0'},
-  bds:{n:'Ξ_b⁻',       sym:'\\Xi_b^-'},
-  bsu:{n:'Ξ_b⁰',       sym:'\\Xi_b^0'},
-  bss:{n:'Ω_b⁻',       sym:'\\Omega_b^-'},
-  bbu:{n:'Σ_{bb}^+',   sym:'\\Sigma_{bb}^+'},
-  bbd:{n:'Ξ_{bb}^0',   sym:'\\Xi_{bb}^0'},
-  bbs:{n:'Ω_{bb}^-',   sym:'\\Omega_{bb}^-'}
-};
-
-/* ====== MESONES ====== (quark_antiquark) */
-const mesonNames = {
-  // familia π / ρ / η
-  'u_d':{n:'π⁺', sym:'\\pi^+'},   'd_u':{n:'π⁻', sym:'\\pi^-'},
-  'u_u':{n:'π⁰ / ρ⁰ / η', sym:'\\pi^0/\\rho^0/\\eta'},
-  'd_d':{n:'π⁰ / ρ⁰ / η', sym:'\\pi^0/\\rho^0/\\eta'},
-  's_s':{n:'η / ϕ',       sym:'\\eta/\\phi'},
-
-  // kaones
-  'u_s':{n:'K⁺',  sym:'K^+'},     's_u':{n:'K⁻',  sym:'K^-'},
-  'd_s':{n:'K⁰',  sym:'K^0'},     's_d':{n:'\\bar{K}⁰', sym:'\\bar{K}^0'},
-
-  /* ---- mesones con c ---- */
-  'c_u':{n:'D⁰',  sym:'D^0'},     'u_c':{n:'\\bar D⁰', sym:'\\bar{D}^0'},
-  'c_d':{n:'D⁺',  sym:'D^+'},     'd_c':{n:'D⁻',      sym:'D^-'},
-  'c_s':{n:'D_s⁺',sym:'D_s^+'},   's_c':{n:'D_s⁻',    sym:'D_s^-'},
-  'c_c':{n:'J/ψ', sym:'J/\\psi'},
-
-  /* ---- mesones con b ---- */
-  'b_u':{n:'B⁺',  sym:'B^+'},     'u_b':{n:'B⁻',  sym:'B^-'},
-  'b_d':{n:'\\bar B⁰', sym:'\\bar{B}^0'}, 'd_b':{n:'B⁰',  sym:'B^0'},
-  'b_s':{n:'\\bar B_s⁰',sym:'\\bar{B}_s^0'}, 's_b':{n:'B_s⁰', sym:'B_s^0'},
-  'b_c':{n:'B_c⁺',sym:'B_c^+'},   'c_b':{n:'B_c⁻', sym:'B_c^-'},
-  'b_b':{n:'Υ',   sym:'\\Upsilon'}
-};
-
-    /* Barión carga */
+    /* ========= Barión carga ========= */
     let barCh=[]; const chSlots=['slotCh0','slotCh1','slotCh2'].map(id=>document.getElementById(id));
     const chRes=document.getElementById('resultBar'), chName=document.getElementById('nameBar');
     Object.keys(QK).forEach(k=>document.getElementById('chgButtonsBar').appendChild(makeFlavorBtn(k,false))
       .onclick=()=>{if(barCh.length<3){barCh.push(k);updBarCh();}});
     document.getElementById('resetChBar').onclick=()=>{barCh=[];updBarCh();};
     function updBarCh(){
-      let n=0;
-      chSlots.forEach((s,i)=>{const f=barCh[i]; if(f){s.className='slot-chg filled quark-filled'; s.textContent=QK[f].s; n+=QK[f].q;} else{ s.className='slot-chg'; s.textContent='?'; }});
+      let n=0; chSlots.forEach((s,i)=>{const f=barCh[i]; if(f){s.className='slot-chg filled quark-filled'; s.textContent=QK[f].s; n+=QK[f].q;} else{ s.className='slot-chg'; s.textContent='?'; }});
       kRender(frac(n),chRes);
       let html='\\textcolor{gray}{\\text{Barión desconocido}}';
-      if(barCh.length===3){ const key=[...barCh].sort().join(''); if(baryonNames[key]) html=`${baryonNames[key].n}\\;\\big(${baryonNames[key].sym}\\big)`;}
+      if(barCh.length===3){ const key=[...barCh].sort().join(''); if(baryonNames[key]) html=`${baryonNames[key].n}\\;\\big(${baryonNames[key].sym}\\big)`; }
       kRender(html,chName);
     }
 
-    /* Mesón carga */
+    /* ========= Mesón carga ========= */
     let mQch=null,mAQch=null;
     const mSlotQ=document.getElementById('slotChQ'), mSlotAQ=document.getElementById('slotChAQ'),
           mRes=document.getElementById('resultMes'), mName=document.getElementById('nameMes');
@@ -398,28 +388,15 @@ const mesonNames = {
       if(mAQch){mSlotAQ.className='slot-chg filled anti-filled'; kRender(`\\bar{${QK[mAQch].s}}`,mSlotAQ); n-=QK[mAQch].q;} else{mSlotAQ.className='slot-chg'; mSlotAQ.textContent='?';}
       if(mQch&&mAQch) kRender(frac(n),mRes); else mRes.textContent='';
       let html='\\textcolor{gray}{\\text{Mesón desconocido}}';
-      if(mQch&&mAQch){ const key=`${mQch}_${mAQch}`; if(mesonNames[key]) html=`${mesonNames[key].n}\\;\\big(${mesonNames[key].sym}\\big)`;}
+      if(mQch&&mAQch){ const key=`${mQch}_${mAQch}`; if(mesonNames[key]) html=`${mesonNames[key].n}\\;\\big(${mesonNames[key].sym}\\big)`; }
       kRender(html,mName);
     }
 
-    /* ====== Render final y rerender de botones ====== */
+    /* ====== Render inicial y KaTeX ====== */
     document.addEventListener('DOMContentLoaded',()=>{
       updBarCol(); updMesCol(); updBarCh(); updMesCh();
-
-      // Render estático
-      renderMathInElement(document.body,{
-        delimiters:[
-          {left:"$$",right:"$$",display:true},
-          {left:"\\[",right:"\\]",display:true},
-          {left:"\\(",right:"\\)",display:false}
-        ],
-        throwOnError:false,strict:false
-      });
-
-      // ——— Rerender botones (asegura KaTeX cargado) ———
-      document.querySelectorAll('.qbtn,.flav-btn').forEach(btn=>{
-        const expr=btn.dataset.katex; if(expr) kRender(expr,btn);
-      });
+      renderMathInElement(document.body,{delimiters:[{left:"$",right:"$",display:false},{left:"$$",right:"$$",display:true}],throwOnError:false,strict:false});
+      document.querySelectorAll('.qbtn,.flav-btn').forEach(btn=>{const expr=btn.dataset.katex; if(expr) kRender(expr,btn);});
     });
   </script>
 </body>
