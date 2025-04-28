@@ -1,107 +1,188 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Propiedades Cuánticas Interactivas</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Laboratorio de Espín y Color Cuántico</title>
 
-  <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- TailwindCSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+
   <!-- KaTeX -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous" />
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
-          onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
 
   <style>
-    :root{--accent:#facc15}
-    body{margin:0;font-family:'Roboto',sans-serif;background:linear-gradient(135deg,#1e3a8a,#111827);color:#e2e8f0}
-    h1,h2{font-family:'Montserrat',sans-serif;font-weight:700;color:var(--accent)}
-    .home-btn{position:fixed;top:20px;left:20px;background:rgba(255,255,255,.1);padding:10px 20px;border-radius:12px;font-weight:bold;color:var(--accent);text-decoration:none;z-index:50}
-    .box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:.75rem;padding:1.5rem;margin-bottom:2rem;box-shadow:0 4px 10px rgba(0,0,0,.25)}
-    /* tarjetas */
-    .flip-card{perspective:1000px;width:170px;height:170px;margin:auto;cursor:pointer}
-    .flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s}
-    .flip-card.flipped .flip-inner{transform:rotateY(180deg)}
-    .flip-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:1rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:#1e3a8a}
-    .flip-front{background:#38bdf8}
-    .flip-back{background:#f472b6;transform:rotateY(180deg);color:#1e293b}
-    .pill{padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:600;margin-right:.4rem}
-    #colorWheel{cursor:pointer}
+    :root{
+      --bg-a:#1e3a8a;--bg-b:#111827;--accent:#facc15;
+      --card:rgba(255,255,255,.06);--border:rgba(255,255,255,.14);
+      --r:#ef4444;--g:#22c55e;--b:#3b82f6;--ar:#06b6d4;--ag:#d946ef;--ab:#fde047;
+    }
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,var(--bg-a),var(--bg-b));color:#e2e8f0;margin:0;min-height:100vh;display:flex;flex-direction:column}
+    h1,h2{color:var(--accent);font-weight:700}
+    .box{background:var(--card);border:1px solid var(--border);backdrop-filter:blur(6px);border-radius:.75rem;padding:1.5rem;margin-bottom:2rem;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+    /* quark buttons & slots */
+    .qbtn,.slot{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;margin:.4rem;border:3px solid rgba(255,255,255,.45);box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .25s}
+    .qbtn:hover{transform:scale(1.08)}
+    .slot{cursor:default;background:rgba(255,255,255,.1);color:#e2e8f0;border-style:dashed;font-size:1.5rem}
+    .slot.filled{border-style:solid;color:#0f172a}
+    /* quark classes */
+    .r{background:var(--r)}.g{background:var(--g)}.b{background:var(--b)}
+    .ar{background:var(--ar)}.ag{background:var(--ag)}.ab{background:var(--ab)}
+    /* result circle */
+    .particle{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;margin:1rem auto;border:3px solid #e2e8f0;transition:.4s;color:#0f172a}
+    .particle.neutral{background:#fff;border-color:#fff;box-shadow:0 0 20px #fff}
+    .particle.not-neutral{background:rgba(255,255,255,.08)}
+    /* spin card */
+    .spin-card{perspective:900px;width:180px;height:220px;margin:auto;cursor:pointer}
+    .spin-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+    .spin-card.flipped .spin-inner{transform:rotateY(180deg)}
+    .face{position:absolute;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:1rem;backface-visibility:hidden;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+    .up{background:linear-gradient(145deg,#67e8f9,#0ea5e9)}
+    .down{background:linear-gradient(145deg,#f9a8d4,#ec4899);transform:rotateY(180deg)}
   </style>
 </head>
 <body>
-<a class="home-btn" href="index.html">🏠 Inicio</a>
-<div class="container mx-auto px-4 py-10 pt-28">
-  <h1 class="text-center text-5xl font-bold mb-10">Propiedades Cuánticas</h1>
+  <main class="container max-w-4xl mx-auto px-4 py-12 flex-1">
+    <h1 class="text-center text-4xl md:text-5xl mb-12">Laboratorio de Espín y Color Cuántico</h1>
 
-  <!-- Spin -->
-  <div class="box grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-    <div>
-      <h2 class="mb-3">Spin (m<sub>s</sub>)</h2>
-      <p>Dos valores: <span class="pill bg-green-400 text-gray-900">+½</span> y <span class="pill bg-pink-400 text-gray-900">−½</span>. Explican la regla de exclusión de Pauli.</p>
-      <p class="text-xs text-gray-400 mt-3">Haz clic en la tarjeta para voltear ↺</p>
-    </div>
-    <div>
-      <div id="spinCard" class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-face flip-front">+½</div>
-          <div class="flip-face flip-back">−½</div>
+    <!-- ░░░ ESPÍN ░░░ -->
+    <section class="box grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h2 class="text-2xl mb-3">¿Qué es el espín?</h2>
+        <p class="mb-3">El <span class="text-yellow-300 font-semibold">espín</span> es como un pequeño imán interno que solo puede apuntar <em>arriba</em> o <em>abajo</em>. Para electrones:</p>
+        <ul class="list-disc list-inside text-sm mb-4">
+          <li><span id="s-up-formula"></span>  → "arriba" (↑)</li>
+          <li><span id="s-down-formula"></span> → "abajo" (↓)</li>
+        </ul>
+        <p class="text-sm text-gray-400">Pulsa la tarjeta para girar el espín.</p>
+      </div>
+      <div>
+        <div id="spinCard" class="spin-card">
+          <div class="spin-inner">
+            <div class="face up">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+              <span id="spin-up-label"></span>
+            </div>
+            <div class="face down">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+              <span id="spin-down-label"></span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- Color -->
-  <div class="box">
-    <h2 class="mb-3">Color (cromodinámica)</h2>
-    <p>Rojo, verde y azul son etiquetas para la fuerza fuerte. Un hadrón estable es neutro en color.</p>
-    <div class="flex flex-col md:flex-row items-center md:space-x-8 mt-6">
-      <canvas id="colorWheel" width="240" height="240" class="rounded-lg shadow-lg mb-4 md:mb-0"></canvas>
-      <div class="flex-1">
-        <p id="colorLabel" class="text-center text-sm text-yellow-200 font-semibold mb-3"></p>
-        <p class="text-sm">Ejemplos:</p>
-        <ul class="list-disc list-inside text-sm">
-          <li><span class="pill" style="background:#ef4444">Rojo</span><span class="pill" style="background:#22c55e">Verde</span><span class="pill" style="background:#3b82f6">Azul</span> ⇒ Hadron blanco.</li>
-          <li><span class="pill" style="background:#ef4444">Rojo</span> + <span class="pill" style="background:#00ffff">Antirrojo</span> ⇒ Mesón neutro.</li>
-        </ul>
-        <p class="text-xs text-gray-400 mt-2">Pasa el ratón o haz clic para fijar un color</p>
+    <!-- ░░░ COLOR ░░░ -->
+    <section class="box">
+      <h2 class="text-center text-2xl mb-6">Juega con la «carga de color»</h2>
+      <p class="text-center mb-8 max-w-2xl mx-auto">Tres colores ficticios —<span style="color:var(--r)">Rojo</span>, <span style="color:var(--g)">Verde</span> y <span style="color:var(--b)">Azul</span>— mantienen a los quarks unidos. Un hadrón visible <strong style="color:white">debe ser blanco</strong> (suma neutra).</p>
+
+      <div class="grid md:grid-cols-2 gap-10">
+        <!-- Barion -->
+        <div class="text-center border border-gray-700 p-6 rounded-lg">
+          <h3 class="text-xl font-semibold mb-4 text-yellow-300">Crea un barión (3 quarks)</h3>
+          <div id="barBtns" class="flex justify-center flex-wrap"></div>
+          <div class="flex justify-center items-center text-2xl font-bold gap-2 my-4">
+            <span id="b0" class="slot">?</span>+
+            <span id="b1" class="slot">?</span>+
+            <span id="b2" class="slot">?</span>
+          </div>
+          <div id="barCircle" class="particle not-neutral"><span id="barLabel">Vacío</span></div>
+          <p id="barMsg" class="h-5 text-sm text-gray-400"></p>
+          <button id="barReset" class="mt-2 px-4 py-1 bg-blue-600 hover:bg-blue-700 rounded-full text-xs font-semibold">Reiniciar</button>
+        </div>
+        <!-- Meson -->
+        <div class="text-center border border-gray-700 p-6 rounded-lg">
+          <h3 class="text-xl font-semibold mb-4 text-yellow-300">Crea un mesón (quark + antiquark)</h3>
+          <div id="mesQ" class="flex justify-center flex-wrap mb-2"></div>
+          <div id="mesAQ" class="flex justify-center flex-wrap mb-2"></div>
+          <div class="flex justify-center items-center text-2xl font-bold gap-2 my-4">
+            <span id="m0" class="slot">?</span>+
+            <span id="m1" class="slot">?</span>
+          </div>
+          <div id="mesCircle" class="particle not-neutral"><span id="mesLabel">Vacío</span></div>
+          <p id="mesMsg" class="h-5 text-sm text-gray-400"></p>
+          <button id="mesReset" class="mt-2 px-4 py-1 bg-blue-600 hover:bg-blue-700 rounded-full text-xs font-semibold">Reiniciar</button>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-<footer class="pb-6 text-center text-xs text-gray-400">©2025 Demo</footer>
+    </section>
+  </main>
 
-<script>
-  // Spin card
-  document.getElementById('spinCard').addEventListener('click',e=>e.currentTarget.classList.toggle('flipped'));
+  <footer class="text-center text-xs text-gray-500 py-6">© 2025 Laboratorio Interactivo</footer>
 
-  // Color wheel
-  const wheel=document.getElementById('colorWheel');
-  const ctx=wheel.getContext('2d');
-  const label=document.getElementById('colorLabel');
-  const sectors=[
-    {color:'#ef4444',text:'Quark ROJO (u, d)'},
-    {color:'#22c55e',text:'Quark VERDE (s)'},
-    {color:'#3b82f6',text:'Quark AZUL (c)'}
-  ];
-  function paint(high=-1){
-    ctx.clearRect(0,0,240,240);
-    sectors.forEach((s,i)=>{
-      ctx.beginPath();ctx.moveTo(120,120);
-      ctx.fillStyle=s.color;ctx.globalAlpha= i===high?0.9:0.65;
-      ctx.arc(120,120,100,(i*120-60)*Math.PI/180,((i+1)*120-60)*Math.PI/180);
-      ctx.closePath();ctx.fill();ctx.globalAlpha=1;
-    });
-  }
-  paint();
-  function getSector(e){const r=wheel.getBoundingClientRect();const x=e.clientX-r.left-120;const y=e.clientY-r.top-120;const d=Math.hypot(x,y);if(d>100)return-1;const ang=(Math.atan2(y,x)*180/Math.PI+420)%360;return Math.floor(ang/120);}
-  let fixed=-1;
-  wheel.addEventListener('mousemove',e=>{if(fixed!=-1)return;const i=getSector(e);label.textContent=i>=0?sectors[i].text:'';paint(i);});
-  wheel.addEventListener('mouseout',()=>{if(fixed==-1){label.textContent='';paint();}});
-  wheel.addEventListener('click',e=>{const i=getSector(e);if(i==-1)return;fixed=i==fixed?-1:i;label.textContent=fixed>=0?sectors[fixed].text:'';paint(fixed);} );
-</script>
+  <script>
+    /* ================== UTILIDADES KaTeX =================== */
+    function renderLatex(expr, el){
+      if(window.katex){katex.render(expr,el,{throwOnError:false});}
+      else setTimeout(()=>renderLatex(expr,el),50);
+    }
+
+    /* ================== ESPÍN =================== */
+    renderLatex('m_{s}=+\\tfrac{1}{2}', document.getElementById('s-up-formula'));
+    renderLatex('m_{s}=-\\tfrac{1}{2}', document.getElementById('s-down-formula'));
+    renderLatex('+\\tfrac{1}{2}', document.getElementById('spin-up-label'));
+    renderLatex('-\\tfrac{1}{2}', document.getElementById('spin-down-label'));
+    document.getElementById('spinCard').addEventListener('click', e=>e.currentTarget.classList.toggle('flipped'));
+
+    /* ================== COLORES =================== */
+    const COLORS={
+      R:{cls:'r',anti:'AR',tex:'R'},
+      G:{cls:'g',anti:'AG',tex:'G'},
+      B:{cls:'b',anti:'AB',tex:'B'},
+      AR:{cls:'ar',anti:'R',tex:'\\overline{R}'},
+      AG:{cls:'ag',anti:'G',tex:'\\overline{G}'},
+      AB:{cls:'ab',anti:'B',tex:'\\overline{B}'}
+    };
+
+    // helper
+    function makeButton(code){
+      const b=document.createElement('button');b.className=`qbtn ${COLORS[code].cls}`;b.dataset.code=code;renderLatex(COLORS[code].tex,b);return b;
+    }
+
+    /* ----------- Barión ----------- */
+    const barSlots=[document.getElementById('b0'),document.getElementById('b1'),document.getElementById('b2')];
+    const barBtns=document.getElementById('barBtns');['R','G','B'].forEach(c=>barBtns.appendChild(makeButton(c)));
+    const barState=[];
+    function refreshBar(){
+      barSlots.forEach((s,i)=>{
+        if(barState[i]){
+          s.className=`slot filled ${COLORS[barState[i]].cls}`;
+          renderLatex(COLORS[barState[i]].tex,s);
+        }else{ s.className='slot'; s.textContent='?'; }
+      });
+      const circle=document.getElementById('barCircle');const label=document.getElementById('barLabel');const msg=document.getElementById('barMsg');
+      const neutral=barState.length===3 && ['R','G','B'].every(c=>barState.includes(c));
+      if(neutral){circle.className='particle neutral';label.textContent='¡Blanco!';msg.textContent='Barión neutro en color';msg.style.color='var(--accent)';}
+      else if(barState.length){circle.className='particle not-neutral';label.textContent='Colorido';msg.textContent=barState.length<3?'Faltan quarks…':'No es blanco aún';msg.style.color='#e2e8f0';}
+      else{circle.className='particle not-neutral';label.textContent='Vacío';msg.textContent='Selecciona 3 quarks (R,G,B)';msg.style.color='#e2e8f0';}
+    }
+    barBtns.onclick=e=>{const code=e.target.closest('button')?.dataset.code;if(code&&barState.length<3){barState.push(code);refreshBar();}};
+    document.getElementById('barReset').onclick=()=>{barState.length=0;refreshBar();};
+    refreshBar();
+
+    /* ----------- Mesón ----------- */
+    const mesQBtns=document.getElementById('mesQ');const mesAQBtns=document.getElementById('mesAQ');
+    ['R','G','B'].forEach(c=>mesQBtns.appendChild(makeButton(c)));
+    ['AR','AG','AB'].forEach(c=>mesAQBtns.appendChild(makeButton(c)));
+    let mQ=null,mAQ=null;
+    function refreshMes(){
+      const mSlots=[document.getElementById('m0'),document.getElementById('m1')];
+      if(mQ){mSlots[0].className=`slot filled ${COLORS[mQ].cls}`;renderLatex(COLORS[mQ].tex,mSlots[0]);}else{mSlots[0].className='slot';mSlots[0].textContent='?';}
+      if(mAQ){mSlots[1].className=`slot filled ${COLORS[mAQ].cls}`;renderLatex(COLORS[mAQ].tex,mSlots[1]);}else{mSlots[1].className='slot';mSlots[1].textContent='?';}
+      const circle=document.getElementById('mesCircle');const label=document.getElementById('mesLabel');const msg=document.getElementById('mesMsg');
+      const neutral=mQ&&mAQ&&COLORS[mQ].anti===mAQ;
+      if(neutral){circle.className='particle neutral';label.textContent='¡Blanco!';msg.textContent='Mesón neutro en color';msg.style.color='var(--accent)';}
+      else if(mQ||mAQ){circle.className='particle not-neutral';label.textContent='Colorido';msg.textContent='Debe ser par color/anticolor';msg.style.color='#e2e8f0';}
+      else{circle.className='particle not-neutral';label.textContent='Vacío';msg.textContent='Elige 1 quark y su antiquark';msg.style.color='#e2e8f0';}
+    }
+    mesQBtns.onclick=e=>{const code=e.target.closest('button')?.dataset.code;if(code){mQ=code;refreshMes();}};
+    mesAQBtns.onclick=e=>{const code=e.target.closest('button')?.dataset.code;if(code){mAQ=code;refreshMes();}};
+    document.getElementById('mesReset').onclick=()=>{mQ=mAQ=null;refreshMes();};
+    refreshMes();
+  </script>
 </body>
 </html>
