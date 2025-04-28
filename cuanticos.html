@@ -307,8 +307,66 @@
     }
 
     /* Tablas de partículas */
-    const baryonNames={duu:{n:'Protón',sym:'p'},ddu:{n:'Neutrón',sym:'n'},dsu:{n:'Λ⁰/Σ⁰',sym:'\\Lambda^0/\\Sigma^0'},dds:{n:'Σ⁻',sym:'\\Sigma^-'},suu:{n:'Σ⁺',sym:'\\Sigma^+'},ssu:{n:'Ξ⁰',sym:'\\Xi^0'},dss:{n:'Ξ⁻',sym:'\\Xi^-'},sss:{n:'Ω⁻',sym:'\\Omega^-'},cdu:{n:'Λ_c⁺',sym:'\\Lambda_c^+'},css:{n:'Ω_c⁰',sym:'\\Omega_c^0'},bdu:{n:'Λ_b⁰',sym:'\\Lambda_b^0'},bss:{n:'Ω_b⁻',sym:'\\Omega_b^-'},ccu:{n:'Σ_cc⁺⁺',sym:'\\Sigma_{cc}^{++}'}};
-    const mesonNames={'u_d':{n:'π⁺',sym:'\\pi^+'},'d_u':{n:'π⁻',sym:'\\pi^-'},'u_u':{n:'π⁰/ρ⁰/η',sym:'\\pi^0/\\rho^0/\\eta'},'d_d':{n:'π⁰/ρ⁰/η',sym:'\\pi^0/\\rho^0/\\eta'},'s_s':{n:'η/φ',sym:'\\eta/\\phi'},'u_s':{n:'K⁺',sym:'K^+'},'s_u':{n:'K⁻',sym:'K^-'},'d_s':{n:'K⁰',sym:'K^0'},'s_d':{n:'\\bar{K}⁰',sym:'\\bar{K}^0'},'c_u':{n:'D⁰',sym:'D^0'},'u_c':{n:'\\bar{D}⁰',sym:'\\bar{D}^0'},'c_d':{n:'D⁺',sym:'D^+'},'d_c':{n:'D⁻',sym:'D^-'},'c_s':{n:'D_s⁺',sym:'D_s^+'},'s_c':{n:'D_s⁻',sym:'D_s^-'},'b_u':{n:'B⁺',sym:'B^+'},'u_b':{n:'B⁻',sym:'B^-'},'b_d':{n:'\\bar{B}⁰',sym:'\\bar{B}^0'},'d_b':{n:'B⁰',sym:'B^0'},'b_s':{n:'\\bar{B}_s⁰',sym:'\\bar{B}_s^0'},'s_b':{n:'B_s⁰',sym:'B_s^0'},'c_c':{n:'J/ψ',sym:'J/\\psi'},'b_b':{n:'Υ',sym:'\\Upsilon'}};
+    /* ====== BARIONES ======  (3 quarks, clave ordenada) */
+const baryonNames = {
+  // nucleones
+  duu:{n:'Protón',     sym:'p'},
+  ddu:{n:'Neutrón',    sym:'n'},
+
+  // familia Σ
+  suu:{n:'Σ⁺',         sym:'\\Sigma^+'},
+  dsu:{n:'Λ⁰ / Σ⁰',    sym:'\\Lambda^0/\\Sigma^0'},
+  dds:{n:'Σ⁻',         sym:'\\Sigma^-'},
+  // familia Ξ
+  ssu:{n:'Ξ⁰',         sym:'\\Xi^0'},
+  dss:{n:'Ξ⁻',         sym:'\\Xi^-'},
+  // Ω clásico
+  sss:{n:'Ω⁻',         sym:'\\Omega^-'},
+
+  /* --------- CON QUARK c ---------- */
+  cdu:{n:'Λ_c⁺',       sym:'\\Lambda_c^+'},
+  cds:{n:'Ξ_c⁰',       sym:'\\Xi_c^0'},
+  csu:{n:'Ξ_c⁺',       sym:'\\Xi_c^+'},
+  ccu:{n:'Σ_{cc}^{++}',sym:'\\Sigma_{cc}^{++}'},
+  ccd:{n:'Ξ_{cc}^+',   sym:'\\Xi_{cc}^+'},
+  ccs:{n:'Ω_{cc}^+',   sym:'\\Omega_{cc}^+'},
+  css:{n:'Ω_c⁰',       sym:'\\Omega_c^0'},
+
+  /* --------- CON QUARK b ---------- */
+  bdu:{n:'Λ_b⁰',       sym:'\\Lambda_b^0'},
+  bds:{n:'Ξ_b⁻',       sym:'\\Xi_b^-'},
+  bsu:{n:'Ξ_b⁰',       sym:'\\Xi_b^0'},
+  bss:{n:'Ω_b⁻',       sym:'\\Omega_b^-'},
+  bbu:{n:'Σ_{bb}^+',   sym:'\\Sigma_{bb}^+'},
+  bbd:{n:'Ξ_{bb}^0',   sym:'\\Xi_{bb}^0'},
+  bbs:{n:'Ω_{bb}^-',   sym:'\\Omega_{bb}^-'}
+};
+
+/* ====== MESONES ====== (quark_antiquark) */
+const mesonNames = {
+  // familia π / ρ / η
+  'u_d':{n:'π⁺', sym:'\\pi^+'},   'd_u':{n:'π⁻', sym:'\\pi^-'},
+  'u_u':{n:'π⁰ / ρ⁰ / η', sym:'\\pi^0/\\rho^0/\\eta'},
+  'd_d':{n:'π⁰ / ρ⁰ / η', sym:'\\pi^0/\\rho^0/\\eta'},
+  's_s':{n:'η / ϕ',       sym:'\\eta/\\phi'},
+
+  // kaones
+  'u_s':{n:'K⁺',  sym:'K^+'},     's_u':{n:'K⁻',  sym:'K^-'},
+  'd_s':{n:'K⁰',  sym:'K^0'},     's_d':{n:'\\bar{K}⁰', sym:'\\bar{K}^0'},
+
+  /* ---- mesones con c ---- */
+  'c_u':{n:'D⁰',  sym:'D^0'},     'u_c':{n:'\\bar D⁰', sym:'\\bar{D}^0'},
+  'c_d':{n:'D⁺',  sym:'D^+'},     'd_c':{n:'D⁻',      sym:'D^-'},
+  'c_s':{n:'D_s⁺',sym:'D_s^+'},   's_c':{n:'D_s⁻',    sym:'D_s^-'},
+  'c_c':{n:'J/ψ', sym:'J/\\psi'},
+
+  /* ---- mesones con b ---- */
+  'b_u':{n:'B⁺',  sym:'B^+'},     'u_b':{n:'B⁻',  sym:'B^-'},
+  'b_d':{n:'\\bar B⁰', sym:'\\bar{B}^0'}, 'd_b':{n:'B⁰',  sym:'B^0'},
+  'b_s':{n:'\\bar B_s⁰',sym:'\\bar{B}_s^0'}, 's_b':{n:'B_s⁰', sym:'B_s^0'},
+  'b_c':{n:'B_c⁺',sym:'B_c^+'},   'c_b':{n:'B_c⁻', sym:'B_c^-'},
+  'b_b':{n:'Υ',   sym:'\\Upsilon'}
+};
 
     /* Barión carga */
     let barCh=[]; const chSlots=['slotCh0','slotCh1','slotCh2'].map(id=>document.getElementById(id));
