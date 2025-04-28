@@ -415,6 +415,35 @@
       renderMathInElement(document.body,{delimiters:[{left:"$",right:"$",display:false},{left:"$$",right:"$$",display:true}],throwOnError:false,strict:false});
       document.querySelectorAll('.qbtn,.flav-btn').forEach(btn=>{const expr=btn.dataset.katex; if(expr) kRender(expr,btn);});
     });
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Primero renderizar expresiones KaTeX de botones y dinámicas
+  updBarCol(); 
+  updMesCol(); 
+  updBarCh(); 
+  updMesCh();
+  
+  // Luego renderizar todas las fórmulas del contenido estático
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "\\(", right: "\\)", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false}
+    ],
+    throwOnError: false,
+    strict: false
+  });
+
+  // Asegurar que todos los botones que tienen fórmulas se actualicen
+  document.querySelectorAll('[data-katex]').forEach(el => {
+    const expr = el.dataset.katex;
+    if (expr) {
+      kRender(expr, el);
+    }
+  });
+});
+
   </script>
 </body>
 </html>
